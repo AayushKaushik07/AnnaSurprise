@@ -344,7 +344,7 @@ async def chat_page():
         async def start_rapid_fire():
             await asyncio.sleep(1)
             await emily_message("Let's play a rapid-fire round! ⚡️")
-            await asyncio.sleep()
+            await asyncio.sleep(0.5)
             await ask_next_rapid_question()
 
         async def ask_next_rapid_question():
