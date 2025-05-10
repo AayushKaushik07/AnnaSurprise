@@ -161,7 +161,7 @@ async def chat_page():
         with ui.column().classes(
                 "w-full max-w-md bg-white p-3 rounded-xl shadow-md gap-3 overflow-y-auto flex-grow font-bold"
         ).style(
-            "max-height: 600px; font-family: 'Dancing Script', cursive; font-size: 20px;"
+            "max-height: 600px; font-family: 'Dancing Script', cursive; font-size: 30px;"
         ) as chat_container:
             typing_label = ui.label('').classes('text-gray-500 italic text-sm')
 
@@ -285,7 +285,7 @@ async def chat_page():
             await asyncio.sleep(2)
             await emily_message("My job depends on the next 5-10 minutes... if I fail, I might just get fired! 😨")
             await asyncio.sleep(2)
-            await emily_message("Let me impress you with a little magic trick 🪄. Pick a color below!")
+            await emily_message("Let me impress you with a little magic trick 🪄. Pick a color from below!")
             await show_color_options()
 
         async def show_color_options():
@@ -443,7 +443,7 @@ async def chat_page():
 @ui.page("/surprise")
 def surprise_page():
     with ui.column().classes("items-center justify-center w-full h-screen bg-gradient-to-br from-pink-100 to-rose-200"):
-        ui.label("A Note from Me to You, Anna 💖").classes("text-2xl font-bold text-pink-700 mb-4").style(
+        ui.label("A Note from Me to You, Anna 💕").classes("text-2xl font-bold text-pink-700 mb-4").style(
             "font-family: 'Dancing Script', cursive;")
 
         with ui.row().classes("justify-center mb-6"):
@@ -483,7 +483,7 @@ def date_page():
         ui.label("🌟 How would you rate your experience?").classes("text-lg font-semibold")
 
         # Native slider from NiceGUI
-        rating_slider = ui.slider(min=1, max=10, value=5, step=1, label="Rate your experience")
+        rating_slider = ui.slider(min=1, max=10, value=5, step=1)
         rating_slider.classes("w-64 bg-gradient-to-r from-pink-400 to-red-400 rounded-full")
 
         feedback_label = ui.label("").classes("mt-2 text-pink-700 text-lg font-medium").style("font-family: 'Dancing Script', cursive;")
@@ -523,14 +523,14 @@ def date_page():
                             # Add an event listener for the value change, using the `on_change` method of the date picker widget
                             date_picker.on_value_change(update_date_input)
 
-                            ui.label("What type of date would you enjoy?").classes("mt-4")
-                            date_type = ui.select(["Dinner", "Movie", "Long Walk", "Surprise Me!"], value="Surprise Me!")
-
                             def submit_final():
-                                ui.notify(f"Can't wait! 🎉 Date: {date_text_input.value}, Type: {date_type.value}",
+                                ui.notify(f"Can't wait for {date_text_input.value} 🎉",
                                           type="positive", duration=6)
 
-                            ui.button("Confirm 💖", on_click=submit_final).classes("mt-4 bg-pink-600 text-white px-4 py-2 rounded")
+                            ui.button("Confirm 💕", on_click=submit_final).classes("mt-4 bg-pink-600 text-white px-4 py-2 rounded")
+                            ui.label("Yayyyyyy, the efforts payed off !!!").classes(
+                                "text-lg text-pink-600"
+                            ).style("font-family: 'Dancing Script', cursive;")
 
                     def no_response():
                         date_container.clear()
@@ -551,7 +551,7 @@ def date_page():
             submit_button_container.clear()  # Hides the submit button
 
         with submit_button_container:
-            ui.button("Submit Rating 💌", on_click=handle_rating_submit).classes(
+            ui.button("Go Ahead 💌", on_click=handle_rating_submit).classes(
                 "bg-pink-500 text-white px-4 py-2 rounded-full text-md shadow-md")
 
 ui.run(title="Surprise for Anna", port=8082, reload=False)
