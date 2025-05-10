@@ -283,7 +283,7 @@ async def chat_page():
         async def emily_talk_about_her_big_task():
             await emily_message("I’ve been assigned the BIGGEST responsibility of my career. 🎯")
             await asyncio.sleep(2)
-            await emily_message("My job depends on the next 5-10 minutes... if I fail, I might just get fired! 😨")
+            await emily_message("My job depends on the next 5 minutes... if I fail, I might just get fired! 😨")
             await asyncio.sleep(2)
             await emily_message("Let me impress you with a little magic trick 🪄. Pick a color from below!")
             await show_color_options()
@@ -366,6 +366,8 @@ async def chat_page():
         async def start_rapid_fire():
             await asyncio.sleep(1)
             await emily_message("Now let's play a rapid-fire round! ⚡️")
+            await asyncio.sleep(0.5)
+            await emily_message("Be honest as someone is watching you 👀")
             await asyncio.sleep(0.5)
             await ask_next_rapid_question()
 
@@ -524,16 +526,18 @@ def date_page():
                             date_picker.on_value_change(update_date_input)
 
                             def submit_final():
+                                ui.label("Yayyyyyy, the efforts paid off !!!").classes(
+                                    "text-lg text-pink-600"
+                                ).style("font-family: 'Dancing Script', cursive;")
                                 ui.notify(f"Can't wait for {date_text_input.value} 🎉",
                                           type="positive", duration=6)
 
                             ui.button("Confirm 💕", on_click=submit_final).classes("mt-4 bg-pink-600 text-white px-4 py-2 rounded")
-                            ui.label("Yayyyyyy, the efforts payed off !!!").classes(
-                                "text-lg text-pink-600"
-                            ).style("font-family: 'Dancing Script', cursive;")
+
 
                     def no_response():
                         date_container.clear()
+                        # Modify this line to exclude the "Awww..." message
                         ui.label("That's okay! I'll be right here when you're ready. 💗").classes(
                             "text-lg text-pink-600"
                         ).style("font-family: 'Dancing Script', cursive;")
@@ -546,12 +550,22 @@ def date_page():
                 feedback_label.text = "✨ Awww, I'm so glad! I have one last question for you..."
                 ask_for_date()
             else:
-                feedback_label.text = "😔 Oh no... I tried my best to impress you but thank you for being honest. You’re still amazing 💖"
-                feedback_label.text = "You can exit the browser now !"
+                feedback_label.text = (
+                    "😔 Oh no... I tried my best to impress you but thank you for being honest. You’re still amazing 💖"
+                    "\nYou can exit the browser now !"
+                )
             submit_button_container.clear()  # Hides the submit button
 
         with submit_button_container:
             ui.button("Go Ahead 💌", on_click=handle_rating_submit).classes(
                 "bg-pink-500 text-white px-4 py-2 rounded-full text-md shadow-md")
+
+        # Function to notify the user to close the tab
+        def close_browser():
+            ui.notify("Please close the browser tab manually. 💖", type="warning", duration=4)
+
+        # Add an exit button to the UI at the end
+        with ui.row().classes("mt-4"):
+            ui.button("Exit ❌", on_click=close_browser).classes("bg-red-500 text-white px-4 py-2 rounded")
 
 ui.run(title="Surprise for Anna", port=8082, reload=False)
