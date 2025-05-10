@@ -150,7 +150,7 @@ async def chat_page():
         """)
 
     # Timer to scroll chat every second
-    ui.timer(1.0, scroll_chat_to_bottom)  # every 1 second
+    ui.timer(0.5, scroll_chat_to_bottom)  # every 1 second
 
     # Bottom options row with buttons or options
     bottom_options_row = ui.row().classes('fixed bottom-100 left-0 right-0 justify-center gap-2 z-50')
@@ -161,7 +161,7 @@ async def chat_page():
         with ui.column().classes(
                 "w-full max-w-md bg-white p-3 rounded-xl shadow-md gap-3 overflow-y-auto flex-grow font-bold"
         ).style(
-            "max-height: 600px; font-family: 'Dancing Script', cursive; font-size: 15px;"
+            "max-height: 600px; font-family: 'Dancing Script', cursive; font-size: 20px;"
         ) as chat_container:
             typing_label = ui.label('').classes('text-gray-500 italic text-sm')
 
@@ -309,7 +309,7 @@ async def chat_page():
 
         async def apply_color_theme(color_label: str):
             update_ui_theme(color_label)
-            await emily_message(f"Tada! ✨ Everything's now bathed in the beautiful {color_label}!")
+            await emily_message(f"Tadaaaa! ✨ Everything's now bathed in the beautiful {color_label}!")
 
         rapid_fire_questions = [
             ("What's your favorite cuisine?", ["Indian", "Thai", "Italian", "Mexican", "German", "Other"]),
@@ -317,6 +317,8 @@ async def chat_page():
             ("What's your favorite hobby?", ["Gardening", "Reading", "Movies/Series", "Sports", "Music"]),
             ("Are you a mountain person or beach person?", ["Mountain", "Beach"]),
             ("What's your favorite movie genre?", ["Action", "Comedy", "Drama", "Horror", "Romance"]),
+            ("So finally the main question - Did I do well to impress you ???", ["Yes, for sure 😊!", "You need to work hard ..."]),
+
         ]
 
         current_question_index = 0
@@ -354,12 +356,16 @@ async def chat_page():
                 "Drama": "So deep and emotional — I’m intrigued by your depth 🎭",
                 "Horror": "Fearless and fierce — Uhhhhhh! 👻",
                 "Romance": "Good choice... you’re a true heart-throb 💖"
-            }
+            },
+            "So finally the main question - Did I do well to impress you ???": {
+                "Yes, for sure 😊!": "Yayyyy, I will keep my job :)",
+                "You need to work hard ...": "I will be fired now :(",
+            },
         }
 
         async def start_rapid_fire():
             await asyncio.sleep(1)
-            await emily_message("Let's play a rapid-fire round! ⚡️")
+            await emily_message("Now let's play a rapid-fire round! ⚡️")
             await asyncio.sleep(0.5)
             await ask_next_rapid_question()
 
@@ -437,11 +443,11 @@ async def chat_page():
 @ui.page("/surprise")
 def surprise_page():
     with ui.column().classes("items-center justify-center w-full h-screen bg-gradient-to-br from-pink-100 to-rose-200"):
-        ui.label("A Note from Me to You, Anna 💖").classes("text-3xl font-bold text-pink-700 mb-4").style(
+        ui.label("A Note from Me to You, Anna 💖").classes("text-2xl font-bold text-pink-700 mb-4").style(
             "font-family: 'Dancing Script', cursive;")
 
         with ui.row().classes("justify-center mb-6"):
-            ui.label("💗").classes("text-6xl animate-pulse")
+            ui.label("💗").classes("text-3xl animate-pulse")
 
         # Personal message with handwritten font
         ui.label("""
@@ -468,35 +474,17 @@ def surprise_page():
         ui.button("Continue to the Last Stage ->").on_click(lambda: ui.navigate.to("/date")).classes(
             "mt-6 bg-black text-pink-600 border border-pink-300 px-4 py-2 rounded-lg")
 
-        @ui.page('/date')
-        def date_page():
-            with ui.column().classes(
-                    'h-screen w-full justify-center items-center bg-gradient-to-br from-pink-100 to-rose-200 gap-8'):
-                ui.label("🎉 Welcome to the final stage! 🎉").classes("text-2xl font-bold text-center")
+@ui.page('/date')
+def date_page():
+    with ui.column().classes(
+            'h-screen w-full justify-center items-center bg-gradient-to-br from-pink-100 to-rose-200 gap-8'):
+        ui.label("🎉 Welcome to the final stage! 🎉").classes("text-2xl font-bold text-center")
 
-                ui.label("🌟 How would you rate your experience?").classes("text-lg font-semibold")
+        ui.label("🌟 How would you rate your experience?").classes("text-lg font-semibold")
 
-                # Custom HTML slider with CSS and JS animation
-                ui.html('''
-                <div class="relative w-64">
-                    <input id="customSlider" type="range" min="1" max="10" value="5" 
-                        class="w-full h-3 bg-gradient-to-r from-pink-400 to-red-400 rounded-full outline-none slider-thumb transition-all duration-300 ease-in-out"
-                        oninput="updateBubble(this)">
-                    <div id="sliderBubble" class="absolute left-1/2 transform -translate-x-1/2 -top-8 text-sm font-bold bg-white text-pink-600 px-2 py-1 rounded shadow transition-all duration-300">
-                        5
-                    </div>
-                </div>
-
-                <script>
-                function updateBubble(slider) {
-                    const bubble = document.getElementById('sliderBubble');
-                    bubble.innerText = slider.value;
-                    const percent = (slider.value - slider.min) / (slider.max - slider.min);
-                    const offset = percent * slider.offsetWidth;
-                    bubble.style.left = `${offset}px`;
-                }
-                </script>
-                ''')
+        # Native slider from NiceGUI
+        rating_slider = ui.slider(min=1, max=10, value=5, step=1, label="Rate your experience")
+        rating_slider.classes("w-64 bg-gradient-to-r from-pink-400 to-red-400 rounded-full")
 
         feedback_label = ui.label("").classes("mt-2 text-pink-700 text-lg font-medium").style("font-family: 'Dancing Script', cursive;")
         submit_button_container = ui.row().classes("mt-4")
@@ -554,7 +542,7 @@ def surprise_page():
                     ui.button("Not yet 🙈", on_click=no_response).classes("bg-gray-300 text-black px-4 py-2 rounded")
 
         def handle_rating_submit():
-            if rating.value >= 6:
+            if rating_slider.value >= 6:
                 feedback_label.text = "✨ Awww, I'm so glad! I have one last question for you..."
                 ask_for_date()
             else:
