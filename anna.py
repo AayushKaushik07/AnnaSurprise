@@ -11,6 +11,7 @@ ui.state.session = {
 
 # Fonts & Confetti styles
 ui.add_head_html(''' 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Dancing+Script&display=swap" rel="stylesheet">
     <style>
         @keyframes confetti {
@@ -36,10 +37,10 @@ def gift_gate():
 
     with ui.column().classes('items-center justify-center w-full h-screen gap-4'):
         ui.label("🎁 Helloooo Anna 🎁").style(
-            "font-size: 36px; font-family: 'Lobster', cursive; font-weight: bold; color: black;")
+            "font-size: 36px; font-family: 'Poppins', sans-serif; font-weight: bold; color: black;")
 
         ui.html(''' 
-            <div style="text-align: center; font-size: 18px; color: black; font-family: 'Dancing Script', cursive;">
+            <div style="text-align: center; font-size: 18px; color: black; font-family: 'Roboto', sans-serif;">
                 The universe is delivering this specially curated surprise to you. ✨<br><br>
                 Tap the gift <b>13 times</b> to open the gate to your surprise 🌟
             </div>
@@ -47,7 +48,7 @@ def gift_gate():
 
         tap_display = ui.label(f"Taps: {ui.state.session['tap_count']}/13").classes("text-center text-md")
         message_label = ui.label('').style(
-            "text-align: center; color: #E91E63; font-size: 18px; font-family: 'Dancing Script', cursive; font-weight: bold;")
+            "text-align: center; color: #E91E63; font-size: 18px; font-family: 'Roboto', sans-serif; font-weight: bold;")
 
         def handle_tap():
             if ui.state.session['tap_count'] >= 13:
@@ -82,7 +83,7 @@ def gift_gate():
                 ''')
 
                 ui.button("Get Started 💫", on_click=lambda: ui.navigate.to('/chat')).style(
-                    "margin-top: 16px; background-color: #000000; color: white; font-family: 'Dancing Script', cursive; border-radius: 8px; padding: 10px 20px;")
+                    "margin-top: 16px; background-color: #000000; color: white; font-family: 'Roboto', sans-serif; border-radius: 8px; padding: 10px 20px;")
 
         ui.html('<div style="font-size: 120px; cursor: pointer;">🎁</div>').on('click', handle_tap)
 
@@ -138,7 +139,7 @@ async def chat_page():
     }
 
     # Bottom options row with buttons or options
-    bottom_options_row = ui.row().classes('fixed bottom-50 left-0 right-0 justify-center gap-2 z-50')
+    bottom_options_row = ui.row().classes('fixed bottom-80 left-0 right-0 justify-center gap-2 z-50')
 
     with ui.column().classes('items-center justify-start w-full h-screen p-4 bg-[#BDC3C7]'):
 
@@ -146,14 +147,14 @@ async def chat_page():
         with ui.column().classes(
                 "w-full max-w-md bg-white p-3 rounded-xl shadow-md gap-3 overflow-y-auto flex-grow"
         ).style(
-            "max-height: 640px; font-family: 'Dancing Script', cursive; font-size: 15px;") as chat_container:
+            "max-height: 600px; font-family: 'Dancing Script', cursive; font-size: 15px;") as chat_container:
             typing_label = ui.label('').classes('text-gray-500 italic text-sm')
 
         # Mood row (buttons or options) at the bottom
         with ui.row().classes(
                 "w-full max-w-md gap-2 flex-wrap justify-center items-center bg-white p-2 shadow-md rounded-t-xl"
         ).style(
-            "position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%); z-index: 50; height: 100px;") as mood_row:
+            "position: absolute; bottom: 70px; left: 50%; transform: translateX(-50%); z-index: 50; height: 100px;") as mood_row:
             pass
 
         # Function to update the UI theme
