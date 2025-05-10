@@ -139,7 +139,7 @@ async def chat_page():
     }
 
     # Bottom options row with buttons or options
-    bottom_options_row = ui.row().classes('fixed bottom-80 left-0 right-0 justify-center gap-2 z-50')
+    bottom_options_row = ui.row().classes('fixed bottom-100 left-0 right-0 justify-center gap-2 z-50')
 
     with ui.column().classes('items-center justify-start w-full h-screen p-4 bg-[#BDC3C7]'):
 
@@ -154,7 +154,7 @@ async def chat_page():
         with ui.row().classes(
                 "w-full max-w-md gap-2 flex-wrap justify-center items-center bg-white p-2 shadow-md rounded-t-xl"
         ).style(
-            "position: absolute; bottom: 70px; left: 50%; transform: translateX(-50%); z-index: 50; height: 100px;") as mood_row:
+            "position: absolute; bottom: 100px; left: 50%; transform: translateX(-50%); z-index: 50; height: 100px;") as mood_row:
             pass
 
         # Function to update the UI theme
@@ -421,7 +421,6 @@ async def chat_page():
 
 @ui.page("/surprise")
 def surprise_page():
-    ui.label("🎉 This is your surprise page! 🎉")
     with ui.column().classes("items-center justify-center w-full h-screen bg-gradient-to-br from-pink-100 to-rose-200"):
         ui.label("A Note from Me to You, Anna 💖").classes("text-3xl font-bold text-pink-700 mb-4").style(
             "font-family: 'Dancing Script', cursive;")
@@ -456,7 +455,7 @@ def surprise_page():
 
 @ui.page('/date')
 def date_page():
-    ui.label("🎉 Welcome to the final stage! 🎉").classes("text-2xl font-bold text-center mt-4")
+    ui.label("🎉 Welcome to the final stage! 🎉").classes("text-xl font-bold text-center mt-4")
 
     with ui.column().classes("items-center justify-center w-full h-screen bg-gradient-to-br from-pink-100 to-rose-200"):
         ui.label("🌟 How would you rate your experience?").classes("text-lg font-semibold mt-2 mb-1")
@@ -471,7 +470,7 @@ def date_page():
         def ask_for_date():
             with date_container:
                 ui.label("💬 Would you like to go on a date with me?").classes(
-                    "text-2xl font-bold text-pink-800 animate-pulse"
+                    "text-xl font-bold text-pink-800 animate-pulse"
                 ).style("font-family: 'Dancing Script', cursive;")
 
                 with ui.row().classes("gap-4"):
