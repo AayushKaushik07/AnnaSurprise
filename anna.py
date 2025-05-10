@@ -9,10 +9,8 @@ ui.state.session = {
     'seven_tap_time': None,
 }
 
-# Fonts & Confetti styles
 ui.add_head_html(''' 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Dancing+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto:wght@400;700&family=Dancing+Script&family=Lobster&display=swap" rel="stylesheet">
     <style>
         @keyframes confetti {
             0% { transform: translateY(0); opacity: 1; }
@@ -33,22 +31,27 @@ ui.add_head_html('''
 
 @ui.page('/')
 def gift_gate():
-    ui.query('body').style('background-color:  #C497D6; color: black;')
+    ui.query('body').style('background-color: #FFB7C5; color: black; font-family: "Dancing Script", cursive;')
 
     with ui.column().classes('items-center justify-center w-full h-screen gap-4'):
+
         ui.label("🎁 Helloooo Anna 🎁").style(
-            "font-size: 36px; font-family: 'Poppins', sans-serif; font-weight: bold; color: black;")
+            "font-size: 40px; font-family: 'Lobster', cursive; font-weight: bold; color: #6A0572;"
+        )
 
         ui.html(''' 
-            <div style="text-align: center; font-size: 18px; color: black; font-family: 'Roboto', sans-serif;">
+            <div style="text-align: center; font-size: 20px; color: #4B0082; font-family: 'Dancing Script', cursive;">
                 The universe is delivering this specially curated surprise to you. ✨<br><br>
                 Tap the gift <b>13 times</b> to open the gate to your surprise 🌟
             </div>
         ''')
 
-        tap_display = ui.label(f"Taps: {ui.state.session['tap_count']}/13").classes("text-center text-md")
+        tap_display = ui.label(f"Taps: {ui.state.session['tap_count']}/13").classes("text-center text-md").style(
+            "font-family: 'Dancing Script', cursive; font-size: 18px;")
+
         message_label = ui.label('').style(
-            "text-align: center; color: #E91E63; font-size: 18px; font-family: 'Roboto', sans-serif; font-weight: bold;")
+            "text-align: center; color: #E91E63; font-size: 20px; font-family: 'Dancing Script', cursive; font-weight: bold;"
+        )
 
         def handle_tap():
             if ui.state.session['tap_count'] >= 13:
@@ -57,7 +60,6 @@ def gift_gate():
             ui.state.session['tap_count'] += 1
             tap_display.text = f"Taps: {ui.state.session['tap_count']}/13"
 
-            # Clear previous message
             message_label.text = ''
 
             if ui.state.session['tap_count'] == 3:
@@ -69,7 +71,6 @@ def gift_gate():
                 ui.state.session['gift_unlocked'] = True
                 message_label.text = "🎉 Wohoooo, You've successfully opened the gateway to your surprise! 🪄"
 
-                # Add confetti
                 ui.add_head_html(''' 
                     <script>
                         let numberOfConfetti = 100;
@@ -83,7 +84,8 @@ def gift_gate():
                 ''')
 
                 ui.button("Get Started 💫", on_click=lambda: ui.navigate.to('/chat')).style(
-                    "margin-top: 16px; background-color: #000000; color: white; font-family: 'Roboto', sans-serif; border-radius: 8px; padding: 10px 20px;")
+                    "margin-top: 16px; background-color: #6A0572; color: white; font-family: 'Dancing Script', cursive; border-radius: 12px; padding: 12px 24px; font-size: 18px;"
+                )
 
         ui.html('<div style="font-size: 120px; cursor: pointer;">🎁</div>').on('click', handle_tap)
 
@@ -138,6 +140,18 @@ async def chat_page():
         "bubble_anna": "#4C8BF5"  # Blue for Anna's bubble
     }
 
+    # JS function to scroll chat to bottom
+    def scroll_chat_to_bottom():
+        ui.run_javascript("""
+            const chatContainer = document.querySelector('[style*="max-height: 600px"]');
+            if (chatContainer) {
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+        """)
+
+    # Timer to scroll chat every second
+    ui.timer(1.0, scroll_chat_to_bottom)  # every 1 second
+
     # Bottom options row with buttons or options
     bottom_options_row = ui.row().classes('fixed bottom-100 left-0 right-0 justify-center gap-2 z-50')
 
@@ -145,16 +159,18 @@ async def chat_page():
 
         # Chat container with max height above the bottom space
         with ui.column().classes(
-                "w-full max-w-md bg-white p-3 rounded-xl shadow-md gap-3 overflow-y-auto flex-grow"
+                "w-full max-w-md bg-white p-3 rounded-xl shadow-md gap-3 overflow-y-auto flex-grow font-bold"
         ).style(
-            "max-height: 600px; font-family: 'Dancing Script', cursive; font-size: 15px;") as chat_container:
+            "max-height: 600px; font-family: 'Dancing Script', cursive; font-size: 15px;"
+        ) as chat_container:
             typing_label = ui.label('').classes('text-gray-500 italic text-sm')
 
         # Mood row (buttons or options) at the bottom
         with ui.row().classes(
                 "w-full max-w-md gap-2 flex-wrap justify-center items-center bg-white p-2 shadow-md rounded-t-xl"
         ).style(
-            "position: absolute; bottom: 100px; left: 50%; transform: translateX(-50%); z-index: 50; height: 100px;") as mood_row:
+            "position: absolute; bottom: 100px; left: 50%; transform: translateX(-50%); z-index: 50; height: 100px;"
+        ) as mood_row:
             pass
 
         # Function to update the UI theme
@@ -286,7 +302,6 @@ async def chat_page():
             mood_row.clear()
             await anna_message(f"I choose {color_label}!")
             await emily_message(f"Ooh {color_label} is a fantastic choice! 🎨")
-            await emily_message(f"Scroll down to see the magic !!!")
             await asyncio.sleep(1)
             await apply_color_theme(color_label)
             await theme_changed_message(color_label)
@@ -453,13 +468,35 @@ def surprise_page():
         ui.button("Continue to the Last Stage ->").on_click(lambda: ui.navigate.to("/date")).classes(
             "mt-6 bg-black text-pink-600 border border-pink-300 px-4 py-2 rounded-lg")
 
-@ui.page('/date')
-def date_page():
-    ui.label("🎉 Welcome to the final stage! 🎉").classes("text-xl font-bold text-center mt-4")
+        @ui.page('/date')
+        def date_page():
+            with ui.column().classes(
+                    'h-screen w-full justify-center items-center bg-gradient-to-br from-pink-100 to-rose-200 gap-8'):
+                ui.label("🎉 Welcome to the final stage! 🎉").classes("text-2xl font-bold text-center")
 
-    with ui.column().classes("items-center justify-center w-full h-screen bg-gradient-to-br from-pink-100 to-rose-200"):
-        ui.label("🌟 How would you rate your experience?").classes("text-lg font-semibold mt-2 mb-1")
-        rating = ui.slider(min=1, max=10, value=5).classes("w-64")
+                ui.label("🌟 How would you rate your experience?").classes("text-lg font-semibold")
+
+                # Custom HTML slider with CSS and JS animation
+                ui.html('''
+                <div class="relative w-64">
+                    <input id="customSlider" type="range" min="1" max="10" value="5" 
+                        class="w-full h-3 bg-gradient-to-r from-pink-400 to-red-400 rounded-full outline-none slider-thumb transition-all duration-300 ease-in-out"
+                        oninput="updateBubble(this)">
+                    <div id="sliderBubble" class="absolute left-1/2 transform -translate-x-1/2 -top-8 text-sm font-bold bg-white text-pink-600 px-2 py-1 rounded shadow transition-all duration-300">
+                        5
+                    </div>
+                </div>
+
+                <script>
+                function updateBubble(slider) {
+                    const bubble = document.getElementById('sliderBubble');
+                    bubble.innerText = slider.value;
+                    const percent = (slider.value - slider.min) / (slider.max - slider.min);
+                    const offset = percent * slider.offsetWidth;
+                    bubble.style.left = `${offset}px`;
+                }
+                </script>
+                ''')
 
         feedback_label = ui.label("").classes("mt-2 text-pink-700 text-lg font-medium").style("font-family: 'Dancing Script', cursive;")
         submit_button_container = ui.row().classes("mt-4")
