@@ -113,7 +113,7 @@ def gift_gate():
 
         # Friendly and exciting header
         ui.label("🎁 Ready for the Surprise? 🎁").style(
-            "font-size: 30px; font-family: 'Lobster', cursive; font-weight: bold; color: #9D174D;"
+            "font-size: 30px; font-family: 'Lobster', cursive; font-weight: bold; color: #7851A9;"
         )
 
         # Light instruction and emotional continuity
