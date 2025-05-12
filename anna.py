@@ -455,6 +455,8 @@ async def chat_page():
             ]),
         ]
 
+        current_question_index=0
+
         rapid_fire_compliments = {
             "🍽️ What's your favorite cuisine?": {
                 "🇮🇳 Indian": "Ahh, full of spices and soul — I like it! 🌶️",
