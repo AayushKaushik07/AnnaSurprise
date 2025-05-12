@@ -57,7 +57,7 @@ def intro_page():
             <p style="margin-bottom: 12px;">Here's what awaits you:</p>
             <ul style="list-style: none; padding-left: 0; margin-bottom: 12px;">
                 <li>1️⃣ A Gate to the Surprise 🎁</li>
-                <li>2️⃣ A Magical Encounter with Emily ✨, you will get to know soon !</li>
+                <li>2️⃣ An Encounter with Emily, a special someone ✨</li>
                 <li>3️⃣ The Main Event 🎉</li>
                 <li>4️⃣ The Feedback & Follow-up 💬</li>
             </ul>
@@ -233,7 +233,7 @@ async def chat_page():
     # JS function to scroll chat to bottom
     def scroll_chat_to_bottom():
         ui.run_javascript("""
-            const chatContainer = document.querySelector('[style*="max-height: 600px"]');
+            const chatContainer = document.querySelector('[style*="max-height: 630px"]');
             if (chatContainer) {
                 chatContainer.scrollTop = chatContainer.scrollHeight;
             }
