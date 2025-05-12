@@ -611,7 +611,7 @@ def surprise_page():
                         animation: fadeIn 2.5s ease-out forwards;
                     }
                     .scroll-box {
-                        max-height: 500px;
+                        max-height: 550px;
                         overflow-y: auto;
                         scroll-behavior: smooth;
                     }
@@ -626,7 +626,7 @@ def surprise_page():
 
                 <div class="fade-in scroll-box" style="font-family: 'Dancing Script', cursive; text-align: justify; font-size: 18px; color: #4B0082; background-color: #fdf6ff; border-radius: 12px; padding: 1.8rem; line-height: 1.7; box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);">
 
-                  <h2 style="text-align: center; font-size: 26px; margin-bottom: 1rem; color: #800080;">Just Something I Needed to Say</h2>
+                  <h2 style="text-align: center; font-size: 20px; margin-bottom: 1rem; color: #800080;">Just Something I Needed to Say</h2>
 
                   <p>Hey Anna,</p>
 
@@ -650,7 +650,7 @@ def surprise_page():
 
                   <p>This little surprise? It’s just a small reflection of how much I appreciate you. And I’ll say it again, Anna — you truly are a wonderful person.</p>
 
-                  <p style="text-align: right; margin-top: 2rem;">🌟<br>Someone who’s really glad the universe had a quiet plan</p>
+                  <p style="text-align: left; margin-top: 2rem;">🌟<br>Someone who’s really glad the universe had a quiet plan</p>
                 </div>
                 """)
 
@@ -717,11 +717,16 @@ def date_page():
             }
         </style>
         <div class="fade-in">
-            <h1 style="font-size: 1.5rem; font-weight: bold; text-align: center;">🎉 Welcome to the Final Stage! 🎉</h1>
+            <h1 style="font-size: 2rem; font-weight: bold; text-align: center; 
+                       color: #8B008B; font-family: 'Dancing Script', cursive;">
+                🎉 Welcome to the Final Stage! 🎉
+            </h1>
         </div>
         """)
 
-        ui.label("🌟 Anna, how would you rate your overall experience?").classes("text-lg font-semibold")
+        ui.label("🌟 Anna, how would you rate your overall experience?").classes("mt-4").style(
+            "font-size: 1.1rem; font-family: 'Dancing Script', cursive; color: #C71585;"
+        )
 
         rating_slider = ui.slider(min=1, max=10, value=5, step=1)
         rating_slider.classes("w-64 bg-gradient-to-r from-pink-400 to-red-400 rounded-full")
