@@ -245,9 +245,7 @@ async def chat_page():
     # Bottom options row with buttons or options
     bottom_options_row = ui.row().classes('fixed bottom-100 left-0 right-0 justify-center gap-2 z-50')
 
-    ui.query('body').classes('m-0 p-0 overflow-hidden')
-
-    with ui.column().classes('items-center justify-start w-screen h-screen p-0 bg-[#BDC3C7]'):
+    with ui.column().classes('items-center justify-start w-full h-screen p-4 bg-[#BDC3C7]'):
 
         # Chat container with max height above the bottom space
         with ui.column().classes(
@@ -302,7 +300,7 @@ async def chat_page():
                     ui.label('🤖').classes('w-6 h-6 text-purple-600')
                     ui.label(text).classes("").style(
                         f"background-color: {current_theme['bubble_emily']}; color: {current_theme['text']}; "
-                        "padding: 8px; border-radius: 1rem; max-width: 80%; font-size: 14px;"
+                        "padding: 8px; border-radius: 1rem; max-width: 80%; font-size: 16px;"
                     )
 
         async def anna_message(text: str):
@@ -312,7 +310,7 @@ async def chat_page():
                     ui.label('👸').classes('w-6 h-6 text-blue-600')
                     ui.label(text).classes("").style(
                         f"background-color: {current_theme['bubble_anna']}; color: {current_theme['text']}; "
-                        "padding: 8px; border-radius: 1rem; max-width: 80%; font-size: 14px;"
+                        "padding: 8px; border-radius: 1rem; max-width: 80%; font-size: 16px;"
                     )
 
             # Send Email
