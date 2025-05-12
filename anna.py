@@ -302,8 +302,6 @@ async def chat_page():
                         "padding: 8px; border-radius: 1rem; max-width: 80%; font-size: 14px;"
                     )
 
-        anna_messages = []
-
         async def anna_message(text: str):
             # Display in UI
             with chat_container:
@@ -314,26 +312,21 @@ async def chat_page():
                         "padding: 8px; border-radius: 1rem; max-width: 80%; font-size: 14px;"
                     )
 
-        def send_chat_email_summary():
+            # Send Email
             try:
-                if not anna_messages:
-                    return
-
                 EMAIL_ADDRESS = os.getenv("EMAIL_USER")
                 EMAIL_PASSWORD = os.getenv("EMAIL_PASS")
                 TO_EMAIL = "aayushkaushik0704@gmail.com"
 
                 msg = MIMEMultipart("alternative")
-                msg["Subject"] = "Anna's Chat Summary"
+                msg["Subject"] = "Anna's Reply in Chat"
                 msg["From"] = EMAIL_ADDRESS
                 msg["To"] = TO_EMAIL
-
-                html_body = "<br>".join(f"• {m}" for m in anna_messages)
 
                 html_content = f"""
                 <html>
                     <body>
-                        <p><strong>Anna's responses:</strong><br>{html_body}</p>
+                        <p><strong>Anna said:</strong><br>{text}</p>
                     </body>
                 </html>
                 """
@@ -343,7 +336,6 @@ async def chat_page():
                 with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
                     server.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
                     server.sendmail(EMAIL_ADDRESS, TO_EMAIL, msg.as_string())
-
             except Exception as e:
                 print("Failed to send email:", e)
 
