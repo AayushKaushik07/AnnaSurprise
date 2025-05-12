@@ -251,7 +251,7 @@ async def chat_page():
         with ui.column().classes(
                 "w-full max-w-md bg-white p-3 rounded-xl shadow-md gap-3 overflow-y-auto flex-grow font-bold"
         ).style(
-            "max-height: 600px; font-family: 'Dancing Script', cursive; font-size: 30px;"
+            "max-height: 630px; font-family: 'Dancing Script', cursive; font-size: 30px;"
         ) as chat_container:
             typing_label = ui.label('').classes('text-gray-500 italic text-sm')
 
@@ -592,11 +592,9 @@ async def chat_page():
 
 @ui.page("/surprise")
 def surprise_page():
-    ui.query('body').classes('m-0 p-0 overflow-hidden')
+    ui.query('body').classes('m-0 p-0 overflow-hidden bg-gradient-to-br from-pink-100 to-rose-200')
 
-    with ui.column().classes(
-            "items-center justify-start w-screen h-screen bg-gradient-to-br from-pink-100 to-rose-200"
-    ):
+    with ui.column().classes('items-center justify-start w-screen h-screen gap-4'):
         ui.label("A Note from Me to You, Anna 💕").classes(
             "text-2xl font-bold text-pink-700 mt-6 mb-4"
         ).style("font-family: 'Dancing Script', cursive;")
@@ -635,27 +633,29 @@ def surprise_page():
 
                   <p>Hey Anna,</p>
 
-                  <p>Maybe this is coming out of the blue — or maybe you’re sharp enough to have sensed it. Either way, there’s something I’ve been holding in, and if I don’t say it now, I know I’ll regret it.</p>
+                  <p>Maybe this is coming out of the blue — or maybe you’ve already sensed what is coming. Either way, there’s something I’ve been holding in, and if I don’t say it now, I know I’ll regret it forever.</p>
 
                   <p>Do you believe in God’s plan? I think I do. Starting my internship two weeks early might’ve seemed rushed at the time, but looking back, I’m so glad I did. Because if I hadn’t… maybe I’d never have met you.</p>
 
-                  <p>Those few days at Bosch Murrhardt weren’t a long time, but they were enough for something to spark. I saw a genuine warmth in you — the kind, friendly nature that stood out quietly yet unmistakably. I mentioned that in the little note I gave you when you left, but honestly, that note didn’t even scratch the surface.</p>
+                  <p>Those few days at Bosch Murrhardt weren’t a long time, but they were enough for me to see your spark. I saw a genuine warmth in you — the kind, friendly nature that stood out quietly, yet unmistakably. I mentioned that in the little note I gave you when you left, but honestly, that note didn’t even scratch the surface.</p>
 
-                  <p>Maybe it was just your job, or maybe... that’s simply who you are. Either way, I truly admired it.</p>
+                  <p>Maybe it was a part of your job, or maybe... that’s simply who you are. Either way, I truly admired it.</p>
 
-                  <p>Then came Snapchat — oddly enough, on your birthday — and that small streak turned into full conversations. At first, it was just casual snaps. Then came the messages. Then came the chats. And before I knew it, we were talking about everything from food and festivals to spirituality, culture, beliefs, and more.</p>
+                  <p>Then came Snapchat — oddly enough, on your birthday. At first, it was just casual snaps. Then came the messages inside snaps and then came the chats. And before I knew it, we were talking about everything from food and festivals to spirituality, culture, beliefs, and more.</p>
 
                   <p>That’s when I realized something: You’re not just fun and kind — you’re also incredibly thoughtful and mature. Some of your insights honestly made me pause and think, “Is this really coming from someone who’s just 23?”</p>
 
                   <p>There’s a wisdom in you that’s rare. Your sense of humor, your understanding, the way you see life — it all felt so grounded, so real. It’s something I genuinely admire and respect.</p>
 
-                  <p>This is probably the first time I’ve opened up like this to anyone. But I don’t regret it. In fact, I think everything happened the way it was supposed to — like it was all part of a quiet plan. And maybe, just maybe, it’s meant to be something more.</p>
+                  <p>This is probably the first time I’ve opened up like this to anyone. But I don’t regret it. In fact, I think everything happened the way it was supposed to — like it was all part of a plan. And maybe, just maybe, it’s meant to be something more.</p>
 
                   <p>You might not believe it, but you really are one of the best people I’ve had the chance to meet. I admire your honesty, your spirit, your thoughts — and I’d love to keep getting to know you, to hear more, to share more.</p>
 
-                  <p>This little surprise? It’s just a small reflection of how much I appreciate you. And I’ll say it again, Anna — you truly are a wonderful person.</p>
+                  <p>This little surprise? It’s just a small reflection of how much I appreciate you. And I’ll say it again, Anna — you truly are a wonderfully genuine person.</p>
+                  
+                  <p> I didn’t wanted to overwhelm you by sharing it all at once, but I thought expressing it this way might feel more meaningful.</p>
 
-                  <p style="text-align: left; margin-top: 2rem;">🌟<br>Someone who’s really glad the universe had a quiet plan</p>
+                  <p style="text-align: left; margin-top: 2rem;">🌟<br>From someone who’s really glad the universe had a plan...</p>
                 </div>
                 """)
 
@@ -699,12 +699,11 @@ def send_email_notification(rating, accepted, selected_date=None):
 
 @ui.page("/date")
 def date_page():
-    ui.query('body').classes('m-0 p-0 overflow-hidden')
     state = {"date_handled": False}
 
-    with ui.column().classes(
-            'w-screen h-screen justify-center items-center bg-gradient-to-br from-pink-100 to-rose-200 gap-8'
-    ):
+    ui.query('body').classes('m-0 p-0 overflow-hidden bg-gradient-to-br from-pink-100 to-rose-200')
+
+    with ui.column().classes('items-center justify-center w-screen h-screen gap-8'):
         ui.html("""
         <style>
             @keyframes fadeIn {
@@ -750,8 +749,7 @@ def date_page():
             def show_question():
                 with date_container:
                     question_label = ui.label("💬 Would you like to go on a Date with me?").classes(
-                        "text-xl font-bold text-pink-800 opacity-0 transition-opacity duration-1000"
-                    ).style("font-family: 'Dancing Script', cursive;").props('id="date-question"')
+    "text-xl font-bold text-pink-800 opacity-0 transition-opacity duration-1000 mt-0 pt-0").style("font-family: 'Dancing Script', cursive;").props('id="date-question"')
 
                     ui.timer(0.2, lambda: question_label.classes(remove="opacity-0"), once=True)
 
@@ -775,7 +773,7 @@ def date_page():
                             ), once=True)
 
                         ui.button("Yes 💕", on_click=yes_response).classes("bg-green-500 text-white px-4 py-2 rounded")
-                        ui.button("Not yet 🙈", on_click=no_response).classes("bg-gray-300 text-black px-4 py-2 rounded")
+                        ui.button("Not yet 🙈", on_click=no_response).classes("bg-gray-300 text-white px-4 py-2 rounded")
 
             def show_date_picker():
                 with date_container:
@@ -809,7 +807,7 @@ def date_page():
 
                         send_email_notification(rating, accepted, selected_date)
 
-                        ui.label("Yayyyy, the efforts paid off !!!").classes(
+                        ui.label("Finally, the efforts PAID OFF !!!").classes(
                             "text-lg text-pink-600"
                         ).style("font-family: 'Dancing Script', cursive;")
                         ui.notify(f"Can't wait for {selected_date} 🎉", type="positive", duration=6)
@@ -841,6 +839,7 @@ def date_page():
             submit_button_container.clear()
             if rating_slider.value >= 6:
                 feedback_label.text = "✨ Awww, I'm so glad! I have one last question for you..."
+                feedback_label.classes("text-pink-700 text-md font-medium mb-2")  # Add this line if not defined
                 ask_for_date()
             else:
                 feedback_label.text = (
