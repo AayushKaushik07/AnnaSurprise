@@ -53,13 +53,13 @@ def intro_page():
 
         <div id="message-box" class="fade-in" style="font-family: 'Dancing Script', cursive; text-align: justify; font-size: 18px; color: #4B0082;">
             <p style="margin-bottom: 12px;"><b>Dear Anna 📩,</b></p>
-            <p style="margin-bottom: 12px;">This is something truly special, crafted just for you — with time, thought, and innovation.</p>
+            <p style="margin-bottom: 12px;">This is something truly special, crafted just for you — with time, thought, and effort.</p>
             <p style="margin-bottom: 12px;">Here's what awaits you:</p>
             <ul style="list-style: none; padding-left: 0; margin-bottom: 12px;">
                 <li>1️⃣ A Gate to the Surprise 🎁</li>
-                <li>2️⃣ A Magical Encounter with Emily ✨</li>
+                <li>2️⃣ A Magical Encounter with Emily ✨, you will get to know soon !</li>
                 <li>3️⃣ The Main Event 🎉</li>
-                <li>4️⃣ A heartfelt Feedback & Follow-up 💬</li>
+                <li>4️⃣ The Feedback & Follow-up 💬</li>
             </ul>
             <p style="margin-bottom: 12px;">I am sorry I made you wait a bit more than I wanted to, but the surprise is finally ready and I hope it brings a smile to your face 😊</p>
         </div>
