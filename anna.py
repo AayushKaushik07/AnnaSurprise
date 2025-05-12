@@ -437,7 +437,7 @@ async def chat_page():
                 "🎤 Pop", "🎸 Rock", "🎷 Jazz", "🎻 Classical", "🎧 Electronic"
             ]),
             ("🎯 What's your favorite hobby?", [
-                "🌱 Gardening", "📚 Reading", "🎬 Movies/Series", "🏀 Sports", "🎵 Music"
+                "🌱 Gardening", "📚 Reading", "🎬 Movies/Series", "⚽ Sports", "🎵 Music"
             ]),
             ("🎨 What's your favorite color?", [
                 "🔵 Blue", "🔴 Red", "🟢 Green", "🟡 Yellow", "🩷 Pink", "⚫ Black", "⚪ White"
@@ -451,7 +451,7 @@ async def chat_page():
             ("🍍 Pineapple on Pizza??", [
                 "🍍✅ Yes, it tastes lovely!", "🍍❌ No, gross!"
             ]),
-            ("🌟 So finally the main question — DID I DO WELL TO IMPRESS YOU???", [
+            ("🌟 So finally, the main question — DID I DO WELL TO IMPRESS YOU???", [
                 "😄👍 Yes, for sure!", "😬💪 You need to work hard!"
             ]),
         ]
@@ -478,7 +478,7 @@ async def chat_page():
                 "🌱 Gardening": "You nurture life — that’s beautiful 🌱",
                 "📚 Reading": "Smart, thoughtful, and deep — I admire that 📚",
                 "🎬 Movies/Series": "Nicee! I guess you love a bucket of popcorn alongside 🍿",
-                "🏀 Sports": "A powerhouse of energy and passion — I see you! 🏅",
+                "⚽ Sports": "A powerhouse of energy and passion — I see you! 🏅",
                 "🎵 Music": "Creative and soulful — Nice vibe! 🎶"
             },
             "🎨 What's your favorite color?": {
@@ -506,7 +506,7 @@ async def chat_page():
                 "🍍❌ No, gross!": "Classic and pure — sticking to the real deal! 🍕😎"
             },
             "🌟 So finally the main question — DID I DO WELL TO IMPRESS YOU???": {
-                "😄👍 Yes, for sure!": "Yayyyy, I will keep my job 😄🎉",
+                "😄👍 Yes, for sure!": "Yayyyy, I will keep my job now 😄🎉",
                 "😬💪 You need to work hard!": "I will be fired now 😢💼💔"
             },
         }
@@ -530,6 +530,7 @@ async def chat_page():
                 await show_rapid_options(options)
             else:
                 await emily_message("Wowwwww, that was soo much fun! Thanks for playing with me Anna 😄 ")
+                await emily_message("I hope you're impressed now 😎 - I am so good, I know !!")
                 await asyncio.sleep(1)
                 await emily_message("Now let’s move to the next and the best part of this surprise... The MAIN EVENT ✨")
                 await asyncio.sleep(1)
