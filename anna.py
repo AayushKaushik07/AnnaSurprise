@@ -529,7 +529,7 @@ async def chat_page():
                 await emily_message(question)
                 await show_rapid_options(options)
             else:
-                await emily_message("Wowwwww, that was soo much fun, Anna! Thanks for playing with me 😄 !!")
+                await emily_message("Wowwwww, that was soo much fun! Thanks for playing with me Anna 😄 ")
                 await asyncio.sleep(1)
                 await emily_message("Now let’s move to the next and the best part of this surprise... The MAIN EVENT ✨")
                 await asyncio.sleep(1)
