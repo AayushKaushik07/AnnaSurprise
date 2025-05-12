@@ -655,7 +655,9 @@ def surprise_page():
                   
                   <p> I didn’t wanted to overwhelm you by sharing it all at once, but I thought expressing it this way might feel more meaningful.</p>
 
-                  <p style="text-align: left; margin-top: 2rem;">🌟<br>From someone who’s really glad the universe had a plan...</p>
+                  <p style="text-align: left; margin-top: 2rem;">From someone who’s really glad the universe had a plan...</p>
+                  🌟<br>
+                  
                 </div>
                 """)
 
@@ -722,7 +724,7 @@ def date_page():
             }
         </style>
         <div class="fade-in">
-            <h1 style="font-size: 1rem; font-weight: bold; text-align: center; 
+            <h1 style="font-size: 1.7rem; font-weight: bold; text-align: center; 
                        color: #8B008B; font-family: 'Dancing Script', cursive;">
                 🎉 Welcome to the Final Stage! 🎉
             </h1>
