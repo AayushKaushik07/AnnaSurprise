@@ -1,6 +1,77 @@
 from nicegui import ui
 import asyncio
 from datetime import datetime
+import sqlite3
+import smtplib
+from email.mime.text import MIMEText
+import os
+
+conn = sqlite3.connect('responses.db', check_same_thread=False)
+cursor = conn.cursor()
+
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS responses (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    rating INTEGER,
+    accepted_date_invite BOOLEAN,
+    selected_date TEXT,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+)
+''')
+conn.commit()
+
+# Load credentials securely from environment variables
+EMAIL_ADDRESS = os.getenv("EMAIL_USER")
+EMAIL_PASSWORD = os.getenv("EMAIL_PASS")
+TO_EMAIL = "aayushkaushik0704@gmail.com"  # Replace with your email to receive responses
+
+@ui.page("/")
+def intro_page():
+    with ui.column().classes("items-center justify-center w-full h-screen bg-gradient-to-br from-pink-100 to-rose-200"):
+        ui.label("✨ A Little Something for You ✨").classes("text-2xl font-bold text-pink-700 mb-4").style(
+            "font-family: 'Dancing Script', cursive;")
+
+        with ui.row().classes("justify-center mb-6"):
+            ui.label("🎁").classes("text-3xl animate-pulse")
+
+        # CSS and message with fade-in class
+        ui.html("""
+        <style>
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            .fade-in {
+                animation: fadeIn 2s ease-out forwards;
+            }
+        </style>
+
+        <div id="message-box" class="fade-in" style="font-family: 'Dancing Script', cursive; text-align: justify; font-size: 18px; color: #4B0082;">
+            <p style="margin-bottom: 12px;"><b>Dear Anna 📩,</b></p>
+            <p style="margin-bottom: 12px;">This is something truly special, crafted just for you — with time, thought, and innovation.</p>
+            <p style="margin-bottom: 12px;">Here's what awaits you:</p>
+            <ul style="list-style: none; padding-left: 0; margin-bottom: 12px;">
+                <li>1️⃣ A Gate to the Surprise 🎁</li>
+                <li>2️⃣ A Magical Encounter with Emily ✨</li>
+                <li>3️⃣ The Main Event 🎉</li>
+                <li>4️⃣ A heartfelt Feedback & Follow-up 💬</li>
+            </ul>
+            <p style="margin-bottom: 12px;">I am sorry I made you wait a bit more than I wanted to, but the surprise is finally ready and I hope it brings a smile to your face 😊</p>
+        </div>
+        """)
+
+        # Hidden button initially
+        ui.button("Get Started 🚀", on_click=lambda: ui.navigate.to("/gate")).props('id=start-btn').classes(
+            "hidden mt-6 bg-purple text-black-600 border border-pink-300 px-4 py-2 rounded-lg")
+
+    # Add JS to show button after fade-in completes
+    ui.add_body_html("""
+    <script>
+        setTimeout(() => {
+            document.getElementById("start-btn").classList.remove("hidden");
+        }, 2200); // show after fade-in
+    </script>
+    """)
 
 # Use ui.state to keep session variables persistent across requests
 ui.state.session = {
@@ -29,29 +100,39 @@ ui.add_head_html('''
     </style>
 ''')
 
-@ui.page('/')
+@ui.page('/gate')
 def gift_gate():
-    ui.query('body').style('background-color: #FFB7C5; color: black; font-family: "Dancing Script", cursive;')
+    # Match background with intro page
+    ui.query('body').classes('bg-gradient-to-br from-pink-100 to-rose-200')
 
     with ui.column().classes('items-center justify-center w-full h-screen gap-4'):
 
-        ui.label("🎁 Helloooo Anna 🎁").style(
-            "font-size: 40px; font-family: 'Lobster', cursive; font-weight: bold; color: #6A0572;"
+        # Friendly and exciting header
+        ui.label("🎁 Ready for the Surprise? 🎁").style(
+            "font-size: 36px; font-family: 'Lobster', cursive; font-weight: bold; color: #9D174D;"
         )
 
+        # Light instruction and emotional continuity
         ui.html(''' 
-            <div style="text-align: center; font-size: 20px; color: #4B0082; font-family: 'Dancing Script', cursive;">
-                The universe is delivering this specially curated surprise to you. ✨<br><br>
-                Tap the gift <b>13 times</b> to open the gate to your surprise 🌟
+            <div style="text-align: center; font-size: 20px; color: #6B021D; font-family: 'Dancing Script', cursive;">
+                Anna, this magical gate hides your surprise!<br><br>
+                Tap the gift slowly <b>13 times</b> and let the universe unfold something special ✨
             </div>
         ''')
 
-        tap_display = ui.label(f"Taps: {ui.state.session['tap_count']}/13").classes("text-center text-md").style(
-            "font-family: 'Dancing Script', cursive; font-size: 18px;")
-
-        message_label = ui.label('').style(
-            "text-align: center; color: #E91E63; font-size: 20px; font-family: 'Dancing Script', cursive; font-weight: bold;"
+        # Tap counter display
+        tap_display = ui.label(f"Taps: {ui.state.session.get('tap_count', 0)}/13").classes("text-center text-md").style(
+            "font-family: 'Dancing Script', cursive; font-size: 18px;"
         )
+
+        # Message shown during tapping
+        message_label = ui.label('').style(
+            "text-align: center; color: #D63384; font-size: 20px; font-family: 'Dancing Script', cursive; font-weight: bold;"
+        )
+
+        # Ensure session variable exists
+        if 'tap_count' not in ui.state.session:
+            ui.state.session['tap_count'] = 0
 
         def handle_tap():
             if ui.state.session['tap_count'] >= 13:
@@ -59,17 +140,18 @@ def gift_gate():
 
             ui.state.session['tap_count'] += 1
             tap_display.text = f"Taps: {ui.state.session['tap_count']}/13"
-
             message_label.text = ''
 
             if ui.state.session['tap_count'] == 3:
-                message_label.text = "Come on, keep going! 💪"
+                message_label.text = "You're doing great! 🎈 Keep going!"
             elif ui.state.session['tap_count'] == 7:
-                message_label.text = "😣 Slowww... it hurts! It's not a race :("
+                message_label.text = "Almost there... the magic is near 🌟"
+            elif ui.state.session['tap_count'] == 12:
+                message_label.text = "Just one more tap to unlock the joy! 🗝️"
 
             if ui.state.session['tap_count'] == 13:
                 ui.state.session['gift_unlocked'] = True
-                message_label.text = "🎉 Wohoooo, You've successfully opened the gateway to your surprise! 🪄"
+                message_label.text = "🎉 Wohoooo! The gateway is now OPEN! Let’s go! 💫"
 
                 ui.add_head_html(''' 
                     <script>
@@ -83,11 +165,14 @@ def gift_gate():
                     </script>
                 ''')
 
-                ui.button("Get Started 💫", on_click=lambda: ui.navigate.to('/chat')).style(
-                    "margin-top: 16px; background-color: #6A0572; color: white; font-family: 'Dancing Script', cursive; border-radius: 12px; padding: 12px 24px; font-size: 18px;"
+                # Button to proceed to chat
+                ui.button("Enter the Realm 💖", on_click=lambda: ui.navigate.to('/chat')).style(
+                    "margin-top: 16px; background-color: #7E22CE; color: white; font-family: 'Dancing Script', cursive; border-radius: 12px; padding: 12px 24px; font-size: 18px;"
                 )
 
+        # Gift emoji click area
         ui.html('<div style="font-size: 120px; cursor: pointer;">🎁</div>').on('click', handle_tap)
+
 
 # Emojis and messages organized for reuse
 MOODS = {
@@ -281,11 +366,11 @@ async def chat_page():
             await emily_talk_about_her_big_task()
 
         async def emily_talk_about_her_big_task():
-            await emily_message("I’ve been assigned the BIGGEST responsibility of my career. 🎯")
+            await emily_message("I’ve been assigned the BIGGEST responsibility of my career. 🎯 - TO IMPRESS YOU !")
             await asyncio.sleep(2)
             await emily_message("My job depends on the next 5 minutes... if I fail, I might just get fired! 😨")
             await asyncio.sleep(2)
-            await emily_message("Let me impress you with a little magic trick 🪄. Pick a color from below!")
+            await emily_message("Firstly, let me show you a little magic trick 🪄. Pick a color from below!")
             await show_color_options()
 
         async def show_color_options():
@@ -312,60 +397,71 @@ async def chat_page():
             await emily_message(f"Tadaaaa! ✨ Everything's now bathed in the beautiful {color_label}!")
 
         rapid_fire_questions = [
-            ("What's your favorite cuisine?", ["Indian", "Thai", "Italian", "Mexican", "German", "Other"]),
-            ("What's your favorite music genre?", ["Pop", "Rock", "Jazz", "Classical", "Electronic"]),
-            ("What's your favorite hobby?", ["Gardening", "Reading", "Movies/Series", "Sports", "Music"]),
-            ("Are you a mountain person or beach person?", ["Mountain", "Beach"]),
-            ("What's your favorite movie genre?", ["Action", "Comedy", "Drama", "Horror", "Romance"]),
-            ("So finally the main question - Did I do well to impress you ???", ["Yes, for sure 😊!", "You need to work hard ..."]),
-
+            ("What's your favorite cuisine?", [
+                "🇮🇳 Indian", "🇹🇭 Thai", "🇮🇹 Italian", "🇲🇽 Mexican", "🇩🇪 German", "🌐 Other"
+            ]),
+            ("What's your favorite music genre?", [
+                "🎤 Pop", "🎸 Rock", "🎷 Jazz", "🎻 Classical", "🎧 Electronic"
+            ]),
+            ("What's your favorite hobby?", [
+                "🌱 Gardening", "📚 Reading", "🎬 Movies/Series", "🏀 Sports", "🎵 Music"
+            ]),
+            ("Are you a mountain person or beach person?", [
+                "🏔️ Mountain", "🏖️ Beach"
+            ]),
+            ("What's your favorite movie genre?", [
+                "🔫 Action", "😂 Comedy", "🎭 Drama", "👻 Horror", "💖 Romance"
+            ]),
+            ("So finally the main question — DID I DO WELL TO IMPRESS YOU???", [
+                "Yes, for sure 😄👍", "You need to work hard 😬💪"
+            ]),
         ]
 
         current_question_index = 0
 
         rapid_fire_compliments = {
             "What's your favorite cuisine?": {
-                "Indian": "Ahh, full of spices and soul — I like it! 🌶️",
-                "Thai": "Sweet, spicy, and unique — Tastyyy! 🍜",
-                "Italian": "A classy choice — you have elegant taste 🍝",
-                "Mexican": "Bold and colorful — certainly a true firecracker! 🌮",
-                "German": "Strong, hearty, and full of surprises — I like it! 🥨",
-                "Other": "I will get to know shortly !"
+                "🇮🇳 Indian": "Ahh, full of spices and soul — I like it! 🌶️",
+                "🇹🇭 Thai": "Sweet, spicy, and unique — Tastyyy! 🍜",
+                "🇮🇹 Italian": "A classy choice — you have elegant taste 🍝",
+                "🇲🇽 Mexican": "Bold and colorful — certainly a true firecracker! 🌮",
+                "🇩🇪 German": "Strong, hearty, and full of surprises — I like it! 🥨",
+                "🌐 Other": "I will get to know shortly!"
             },
             "What's your favorite music genre?": {
-                "Pop": "Trendy and upbeat — lovelyyy! 🎤",
-                "Rock": "You’ve got that rebellious spark — I like it! 🎸",
-                "Jazz": "Smooth, classy, and full of depth — Niceee 🎷",
-                "Classical": "Such grace and poise — your taste is timeless 🎻",
-                "Electronic": "Energetic and electric — Awesomeeee! ⚡"
+                "🎤 Pop": "Trendy and upbeat — lovelyyy! 🎤",
+                "🎸 Rock": "You’ve got that rebellious spark — I like it! 🎸",
+                "🎷 Jazz": "Smooth, classy, and full of depth — Niceee 🎷",
+                "🎻 Classical": "Such grace and poise — your taste is timeless 🎻",
+                "🎧 Electronic": "Energetic and electric — Awesomeeee! ⚡"
             },
             "What's your favorite hobby?": {
-                "Gardening": "You nurture life — that’s beautiful 🌱",
-                "Reading": "Smart, thoughtful, and deep — I admire that 📚",
-                "Movies/Series": "Niceeee! 🍿",
-                "Sports": "A powerhouse of energy and passion — I see you! 🏅",
-                "Music": "Creative and soulful — Nice vibe! 🎶"
+                "🌱 Gardening": "You nurture life — that’s beautiful 🌱",
+                "📚 Reading": "Smart, thoughtful, and deep — I admire that 📚",
+                "🎬 Movies/Series": "Nicee! I guess you love a bucket of popcorn alongside 🍿",
+                "🏀 Sports": "A powerhouse of energy and passion — I see you! 🏅",
+                "🎵 Music": "Creative and soulful — Nice vibe! 🎶"
             },
             "Are you a mountain person or beach person?": {
-                "Mountain": "Peaceful, powerful, and grounded — Great ! 🏔️",
-                "Beach": "Breezy, bright, and full of sunshine — Awesome ! 🌊"
+                "🏔️ Mountain": "Peaceful, powerful, and grounded — I love it! 🏔️",
+                "🏖️ Beach": "Breezy, bright, and full of sunshine — Awesomeee! 🌊"
             },
             "What's your favorite movie genre?": {
-                "Action": "You love the thrill — definitely a bold soul! 🎬",
-                "Comedy": "Now I know the reason for your good Humor! 😂",
-                "Drama": "So deep and emotional — I’m intrigued by your depth 🎭",
-                "Horror": "Fearless and fierce — Uhhhhhh! 👻",
-                "Romance": "Good choice... you’re a true heart-throb 💖"
+                "🔫 Action": "You love the thrill — definitely a bold soul! 🎬",
+                "😂 Comedy": "Now I know the reason for your good Humor! 😂",
+                "🎭 Drama": "So deep and emotional — I’m intrigued by your depth 🎭",
+                "👻 Horror": "Fearless and fierce — Uhhhhhh! I hope you get scared 👻",
+                "💖 Romance": "Good choice... you’re a true heart-throb 💖"
             },
-            "So finally the main question - Did I do well to impress you ???": {
-                "Yes, for sure 😊!": "Yayyyy, I will keep my job :)",
-                "You need to work hard ...": "I will be fired now :(",
+            "So finally the main question — DID I DO WELL TO IMPRESS YOU???": {
+                "Yes, for sure 😄👍": "Yayyyy, I will keep my job 😄🎉",
+                "You need to work hard 😬💪": "I will be fired now 😢💼💔"
             },
         }
 
         async def start_rapid_fire():
             await asyncio.sleep(1)
-            await emily_message("Now let's play a rapid-fire round! ⚡️")
+            await emily_message("Let's play a rapid-fire round! ⚡️")
             await asyncio.sleep(0.5)
             await emily_message("Be honest as someone is watching you 👀")
             await asyncio.sleep(0.5)
@@ -383,14 +479,14 @@ async def chat_page():
             else:
                 await emily_message("Wowwwwwww, that was soo much fun, Anna! Thanks for playing with me !!")
                 await asyncio.sleep(1)
-                await emily_message("Now let’s move to the next and the best part of this surprise... ✨")
+                await emily_message("Now let’s move to the next and the best part of this surprise... The MAIN EVENT ✨")
                 await asyncio.sleep(1)
                 await emily_message("My creator has something special for you. Click below to view it 💌")
 
                 # Show button to proceed
                 bottom_options_row.clear()
                 ui.button(
-                    "View the Surprise 💝",
+                    "View the Main Event 💝",
                     on_click=lambda: ui.navigate.to("/surprise")
                 ).classes("bg-pink-500 text-white px-4 py-2 rounded-full text-lg shadow-md").props("flat")
 
@@ -451,120 +547,236 @@ def surprise_page():
         with ui.row().classes("justify-center mb-6"):
             ui.label("💗").classes("text-3xl animate-pulse")
 
-        # Personal message with handwritten font
-        ui.label("""
-                Hey Anna,
+        # Message with fade-in animation and paragraph formatting
+        ui.html("""
+        <style>
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            .fade-in {
+                animation: fadeIn 2.5s ease-out forwards;
+            }
+        </style>
 
-                I’ve been meaning to say this for a while — I genuinely feel lucky that our paths crossed.
+        <div id="note-message" class="fade-in" style="font-family: 'Dancing Script', cursive; text-align: justify; font-size: 18px; color: #4B0082; max-width: 700px; padding: 0 1rem;">
+            <p>Hey Anna,</p>
 
-                If I hadn’t started my internship early, maybe we’d never have met. But I did — and those two weeks gave me a glimpse of someone truly unforgettable.
+            <p>I’ve been meaning to say this for a while — I genuinely feel lucky that our paths crossed.</p>
 
-                Over these past months, our conversations — about food, goals, beliefs, or just random jokes — have felt rare and real. You’ve shown a kind of wisdom and honesty I’ve never quite seen before. The way you see things, the clarity in your thoughts... it’s something I quietly admire more than you know.
+            <p>If I hadn’t started my internship early, maybe we’d never have met. But I did — and those two weeks gave me a glimpse of someone truly unforgettable.</p>
 
-                When I gave you that note, I said you have a charming personality — and I meant every word. You’ve only proven that more with time.
+            <p>Over these past months, our conversations — about food, goals, beliefs, or just random jokes — have felt rare and real. You’ve shown a kind of wisdom and honesty I’ve never quite seen before. The way you see things, the clarity in your thoughts... it’s something I quietly admire more than you know.</p>
 
-                It might sound a little cheesy, but I can’t help feeling like this was all meant to be. And honestly, I’m glad it happened.
+            <p>When I gave you that note, I said you have a charming personality — and I meant every word. You’ve only proven that more with time.</p>
 
-                You’re a rare person, Anna. And I’d love to keep getting to know you.
+            <p>It might sound a little cheesy, but I can’t help feeling like this was all meant to be. And honestly, I’m glad it happened.</p>
 
-                Maybe the universe had a quiet plan all along — and I’m really thankful it did. :)
+            <p>You’re a rare person, Anna. And I’d love to keep getting to know you.</p>
 
-                — Someone who's quietly grateful for it all 💫
-                """).classes("text-lg text-center text-gray-800 max-w-xl px-4").style(
-            "font-family: 'Dancing Script', cursive; text-align: justify;")
+            <p>Maybe the universe had a quiet plan all along — and I’m really thankful it did. :)</p>
 
-        ui.button("Continue to the Last Stage ->").on_click(lambda: ui.navigate.to("/date")).classes(
-            "mt-6 bg-black text-pink-600 border border-pink-300 px-4 py-2 rounded-lg")
+            <p>— Someone who's quietly grateful for it all 💫</p>
+        </div>
+        """)
 
-@ui.page('/date')
+        # Button, initially hidden
+        ui.button("Continue to the Last Stage →", on_click=lambda: ui.navigate.to("/date")).props('id=continue-btn').classes(
+            "hidden mt-6 bg-purple text-black-600 border border-pink-300 px-4 py-2 rounded-lg")
+
+    # JavaScript to reveal button after animation ends
+    ui.add_body_html("""
+    <script>
+        setTimeout(() => {
+            document.getElementById("continue-btn").classList.remove("hidden");
+        }, 2300);
+    </script>
+    """)
+
+def send_email_notification(rating, accepted, selected_date=None):
+    subject = "💌 New Response from Anna"
+
+    if accepted:
+        message = (
+            f"Anna rated the experience {rating}/10 and said YES to the date! 💖\n"
+            f"Selected date: {selected_date}"
+        )
+    else:
+        message = f"Anna rated the experience {rating}/10 and declined the date invite. 🙁"
+
+    msg = MIMEText(message)
+    msg["Subject"] = subject
+    msg["From"] = EMAIL_ADDRESS
+    msg["To"] = TO_EMAIL
+
+    try:
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
+            smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+            smtp.send_message(msg)
+        print("✅ Email sent.")
+    except Exception as e:
+        print("❌ Failed to send email:", e)
+
+@ui.page("/date")
 def date_page():
+    state = {"date_handled": False}
+
     with ui.column().classes(
-            'h-screen w-full justify-center items-center bg-gradient-to-br from-pink-100 to-rose-200 gap-8'):
-        ui.label("🎉 Welcome to the final stage! 🎉").classes("text-2xl font-bold text-center")
+        'h-screen w-full justify-center items-center bg-gradient-to-br from-pink-100 to-rose-200 gap-8'
+    ):
+        ui.html("""
+        <style>
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            @keyframes fadeOut {
+                from { opacity: 1; transform: translateY(0); }
+                to { opacity: 0; transform: translateY(20px); }
+            }
+            .fade-in {
+                animation: fadeIn 1.2s ease-out forwards;
+            }
+            .fade-out {
+                animation: fadeOut 0.8s ease-in forwards;
+            }
+        </style>
+        <div class="fade-in">
+            <h1 style="font-size: 1.5rem; font-weight: bold; text-align: center;">🎉 Welcome to the Final Stage! 🎉</h1>
+        </div>
+        """)
 
-        ui.label("🌟 How would you rate your experience?").classes("text-lg font-semibold")
+        ui.label("🌟 Anna, how would you rate your overall experience?").classes("text-lg font-semibold")
 
-        # Native slider from NiceGUI
         rating_slider = ui.slider(min=1, max=10, value=5, step=1)
         rating_slider.classes("w-64 bg-gradient-to-r from-pink-400 to-red-400 rounded-full")
 
-        feedback_label = ui.label("").classes("mt-2 text-pink-700 text-lg font-medium").style("font-family: 'Dancing Script', cursive;")
+        feedback_label = ui.label("").classes("mt-2 text-pink-700 text-lg font-medium").style(
+            "font-family: 'Dancing Script', cursive;"
+        )
         submit_button_container = ui.row().classes("mt-4")
-
-        # Container for conditional interaction (date question and input)
         date_container = ui.column().classes("items-center justify-center gap-4 mt-6")
 
         def ask_for_date():
-            with date_container:
-                ui.label("💬 Would you like to go on a date with me?").classes(
-                    "text-xl font-bold text-pink-800 animate-pulse"
-                ).style("font-family: 'Dancing Script', cursive;")
+            ui.timer(2.0, lambda: render_date_question(), once=True)
 
-                with ui.row().classes("gap-4"):
-                    def yes_response():
-                        date_container.clear()
+        def render_date_question():
+            def show_question():
+                with date_container:
+                    question_label = ui.label("💬 Would you like to go on a Date with me?").classes(
+                        "text-xl font-bold text-pink-800 opacity-0 transition-opacity duration-1000"
+                    ).style("font-family: 'Dancing Script', cursive;").props('id="date-question"')
 
-                        with date_container:
-                            ui.label("🥰 Yaaay! I'm so excited! Just a few more things...").classes("text-lg text-pink-700").style(
-                                "font-family: 'Dancing Script', cursive;"
-                            )
+                    ui.timer(0.2, lambda: question_label.classes(remove="opacity-0"), once=True)
 
-                            ui.label("Pick a date for our special day:").classes("mt-4")
-                            date_picker = ui.date()
+                    with ui.row().classes("gap-4 mt-2"):
+                        def yes_response():
+                            state["date_handled"] = True
+                            feedback_label.text = ""
+                            question_label.classes(add="fade-out")
+                            ui.timer(0.8, lambda: (
+                                date_container.clear(),
+                                show_date_picker()
+                            ), once=True)
 
-                            date_text_input = ui.input("Selected date").classes("w-64")
-                            date_text_input.visible = False
+                        def no_response():
+                            state["date_handled"] = True
+                            feedback_label.text = ""
+                            question_label.classes(add="fade-out")
+                            ui.timer(0.8, lambda: (
+                                date_container.clear(),
+                                show_not_ready_message()
+                            ), once=True)
 
-                            def update_date_input():
-                                # If a date is selected, update the input field
-                                if date_picker.value:
-                                    date_text_input.value = str(date_picker.value)
-                                    date_text_input.visible = True
-                                    date_picker.visible = False
+                        ui.button("Yes 💕", on_click=yes_response).classes("bg-green-500 text-white px-4 py-2 rounded")
+                        ui.button("Not yet 🙈", on_click=no_response).classes("bg-gray-300 text-black px-4 py-2 rounded")
 
-                            # Add an event listener for the value change, using the `on_change` method of the date picker widget
-                            date_picker.on_value_change(update_date_input)
+            def show_date_picker():
+                with date_container:
+                    ui.label("🥰 Yaaay! I'm so excited! Just a few more things...").classes(
+                        "text-lg text-pink-700"
+                    ).style("font-family: 'Dancing Script', cursive;")
 
-                            def submit_final():
-                                ui.label("Yayyyyyy, the efforts paid off !!!").classes(
-                                    "text-lg text-pink-600"
-                                ).style("font-family: 'Dancing Script', cursive;")
-                                ui.notify(f"Can't wait for {date_text_input.value} 🎉",
-                                          type="positive", duration=6)
+                    ui.label("Pick a date for our special day:").classes("mt-4")
+                    date_picker = ui.date()
+                    date_text_input = ui.input("Selected date").classes("w-64")
+                    date_text_input.visible = False
 
-                            ui.button("Confirm 💕", on_click=submit_final).classes("mt-4 bg-pink-600 text-white px-4 py-2 rounded")
+                    def update_date_input():
+                        if date_picker.value:
+                            date_text_input.value = str(date_picker.value)
+                            date_text_input.visible = True
+                            date_picker.visible = False
 
+                    date_picker.on_value_change(update_date_input)
 
-                    def no_response():
-                        date_container.clear()
-                        # Modify this line to exclude the "Awww..." message
-                        ui.label("That's okay! I'll be right here when you're ready. 💗").classes(
+                    def submit_final():
+                        selected_date = str(date_text_input.value)
+                        rating = rating_slider.value
+                        accepted = True
+
+                        cursor.execute('''
+                            INSERT INTO responses (rating, accepted_date_invite, selected_date)
+                            VALUES (?, ?, ?)
+                        ''', (rating, accepted, selected_date))
+                        conn.commit()
+
+                        send_email_notification(rating, accepted, selected_date)
+
+                        ui.label("Yayyyy, the efforts paid off !!!").classes(
                             "text-lg text-pink-600"
                         ).style("font-family: 'Dancing Script', cursive;")
+                        ui.notify(f"Can't wait for {selected_date} 🎉", type="positive", duration=6)
 
-                    ui.button("Yes 💕", on_click=yes_response).classes("bg-green-500 text-white px-4 py-2 rounded")
-                    ui.button("Not yet 🙈", on_click=no_response).classes("bg-gray-300 text-black px-4 py-2 rounded")
+                    ui.button("Confirm 💕", on_click=submit_final).classes(
+                        "mt-4 bg-pink-600 text-white px-4 py-2 rounded"
+                    )
+
+            def show_not_ready_message():
+                rating = rating_slider.value
+                accepted = False
+
+                cursor.execute('''
+                    INSERT INTO responses (rating, accepted_date_invite, selected_date)
+                    VALUES (?, ?, ?)
+                ''', (rating, accepted, None))
+                conn.commit()
+
+                send_email_notification(rating, accepted, None)
+
+                with date_container:
+                    ui.label("That's okay! I'll be right here when you're ready. 💗").classes(
+                        "text-lg text-pink-600"
+                    ).style("font-family: 'Dancing Script', cursive;")
+
+            ui.timer(1.0, show_question, once=True)
 
         def handle_rating_submit():
+            submit_button_container.clear()
             if rating_slider.value >= 6:
                 feedback_label.text = "✨ Awww, I'm so glad! I have one last question for you..."
                 ask_for_date()
             else:
                 feedback_label.text = (
-                    "😔 Oh no... I tried my best to impress you but thank you for being honest. You’re still amazing 💖"
-                    "\nYou can exit the browser now !"
+                    "😔 Oh no... I tried my best to impress you but thank you for being honest. You’re still amazing 💖\n"
+                    "You can exit the browser now!"
                 )
-            submit_button_container.clear()  # Hides the submit button
+
+                cursor.execute('''
+                    INSERT INTO responses (rating, accepted_date_invite, selected_date)
+                    VALUES (?, ?, ?)
+                ''', (rating_slider.value, False, None))
+                conn.commit()
+
+                send_email_notification(rating_slider.value, False, None)
 
         with submit_button_container:
             ui.button("Go Ahead 💌", on_click=handle_rating_submit).classes(
                 "bg-pink-500 text-white px-4 py-2 rounded-full text-md shadow-md")
 
-        # Function to notify the user to close the tab
         def close_browser():
             ui.notify("Please close the browser tab manually. 💖", type="warning", duration=4)
 
-        # Add an exit button to the UI at the end
         with ui.row().classes("mt-4"):
             ui.button("Exit ❌", on_click=close_browser).classes("bg-red-500 text-white px-4 py-2 rounded")
 
