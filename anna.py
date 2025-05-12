@@ -455,10 +455,8 @@ async def chat_page():
             ]),
         ]
 
-        current_question_index = 0
-
         rapid_fire_compliments = {
-            "What's your favorite cuisine?": {
+            "🍽️ What's your favorite cuisine?": {
                 "🇮🇳 Indian": "Ahh, full of spices and soul — I like it! 🌶️",
                 "🇹🇭 Thai": "Sweet, spicy, and unique — Tastyyy! 🍜",
                 "🇮🇹 Italian": "A classy choice — you have elegant taste 🍝",
@@ -466,14 +464,14 @@ async def chat_page():
                 "🇩🇪 German": "Strong, hearty, and full of surprises — I like it! 🥨",
                 "🌐 Other": "I will get to know shortly!"
             },
-            "What's your favorite music genre?": {
+            "🎶 What's your favorite music genre?": {
                 "🎤 Pop": "Trendy and upbeat — lovelyyy! 🎤",
                 "🎸 Rock": "You’ve got that rebellious spark — I like it! 🎸",
                 "🎷 Jazz": "Smooth, classy, and full of depth — Niceee 🎷",
                 "🎻 Classical": "Such grace and poise — your taste is timeless 🎻",
                 "🎧 Electronic": "Energetic and electric — Awesomeeee! ⚡"
             },
-            "What's your favorite hobby?": {
+            "🎯 What's your favorite hobby?": {
                 "🌱 Gardening": "You nurture life — that’s beautiful 🌱",
                 "📚 Reading": "Smart, thoughtful, and deep — I admire that 📚",
                 "🎬 Movies/Series": "Nicee! I guess you love a bucket of popcorn alongside 🍿",
@@ -487,14 +485,13 @@ async def chat_page():
                 "🟡 Yellow": "Bright and full of joy — sunshine vibes! ☀️",
                 "🩷 Pink": "Soft yet powerful — a heart made of gold (and glitter)! 🎀",
                 "⚫ Black": "Elegant and mysterious — like a midnight dream 🌌",
-                "🤍 White": "Pure and peaceful — a calming presence 🤍"
+                "⚪ White": "Pure and peaceful — a calming presence 🤍"
             },
-
-            "Are you a mountain person or beach person?": {
+            "🌄 Are you a mountain person or beach person?": {
                 "🏔️ Mountain": "Peaceful, powerful, and grounded — I love it! 🏔️",
                 "🏖️ Beach": "Breezy, bright, and full of sunshine — Awesomeee! 🌊"
             },
-            "What's your favorite movie genre?": {
+            "🎞️ What's your favorite movie genre?": {
                 "🔫 Action": "You love the thrill — definitely a bold soul! 🎬",
                 "😂 Comedy": "Now I know the reason for your good Humor! 😂",
                 "🎭 Drama": "So deep and emotional — I’m intrigued by your depth 🎭",
@@ -506,8 +503,8 @@ async def chat_page():
                 "🍍❌ No, gross!": "Classic and pure — sticking to the real deal! 🍕😎"
             },
             "🌟 So finally the main question — DID I DO WELL TO IMPRESS YOU???": {
-                "Yes, for sure 😄👍": "Yayyyy, I will keep my job 😄🎉",
-                "You need to work hard 😬💪": "I will be fired now 😢💼💔"
+                "😄👍 Yes, for sure!": "Yayyyy, I will keep my job 😄🎉",
+                "😬💪 You need to work hard!": "I will be fired now 😢💼💔"
             },
         }
 
@@ -529,7 +526,7 @@ async def chat_page():
                 await emily_message(question)
                 await show_rapid_options(options)
             else:
-                await emily_message("Wowwwwwww, that was soo much fun, Anna! Thanks for playing with me !!")
+                await emily_message("Wowwwww, that was soo much fun, Anna! Thanks for playing with me 😄 !!")
                 await asyncio.sleep(1)
                 await emily_message("Now let’s move to the next and the best part of this surprise... The MAIN EVENT ✨")
                 await asyncio.sleep(1)
@@ -568,7 +565,7 @@ async def chat_page():
             await ask_next_rapid_question()
 
         async def start_chat():
-            await emily_message("Hi Anna! 🌸 Welcome !!! I was waiting for you 😊.")
+            await emily_message("Hi Anna 🌸 Welcome !!! I was waiting for you 😊.")
             await emily_message("Tell me...How are you feeling right now???")
             await show_mood_buttons()
 
@@ -592,9 +589,9 @@ async def chat_page():
 
 @ui.page("/surprise")
 def surprise_page():
-    with ui.column().classes("items-center justify-center w-full h-screen bg-gradient-to-br from-pink-100 to-rose-200"):
+    with ui.column().classes("items-center justify-start w-full min-h-screen bg-gradient-to-br from-pink-100 to-rose-200"):
         ui.label("A Note from Me to You, Anna 💕").classes(
-            "text-2xl font-bold text-pink-700 mb-4"
+            "text-2xl font-bold text-pink-700 mt-6 mb-4"
         ).style("font-family: 'Dancing Script', cursive;")
 
         with ui.row().classes("justify-center mb-4"):
@@ -611,9 +608,21 @@ def surprise_page():
                     .fade-in {
                         animation: fadeIn 2.5s ease-out forwards;
                     }
+                    .scroll-box {
+                        max-height: 500px;
+                        overflow-y: auto;
+                        scroll-behavior: smooth;
+                    }
+                    .scroll-box::-webkit-scrollbar {
+                        width: 8px;
+                    }
+                    .scroll-box::-webkit-scrollbar-thumb {
+                        background-color: #e0aaff;
+                        border-radius: 4px;
+                    }
                 </style>
 
-                <div class="fade-in" style="font-family: 'Dancing Script', cursive; text-align: justify; font-size: 18px; color: #4B0082; background-color: #fdf6ff; border-radius: 12px; padding: 1.8rem; line-height: 1.7; box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);">
+                <div class="fade-in scroll-box" style="font-family: 'Dancing Script', cursive; text-align: justify; font-size: 18px; color: #4B0082; background-color: #fdf6ff; border-radius: 12px; padding: 1.8rem; line-height: 1.7; box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);">
 
                   <h2 style="text-align: center; font-size: 26px; margin-bottom: 1rem; color: #800080;">Just Something I Needed to Say</h2>
 
@@ -643,13 +652,12 @@ def surprise_page():
                 </div>
                 """)
 
-        # Button section (revealed with JS)
         ui.button("Continue to the Last Stage →", on_click=lambda: ui.navigate.to("/date")).props(
             'id=continue-btn').classes(
             "hidden mt-6 bg-purple text-black-600 border border-pink-300 px-4 py-2 rounded-lg"
         )
 
-    # JavaScript to show button after 2.3s
+    # Reveal button after 2.3s
     ui.add_body_html("""
     <script>
         setTimeout(() => {
@@ -657,7 +665,6 @@ def surprise_page():
         }, 2300);
     </script>
     """)
-
 
 def send_email_notification(rating, accepted, selected_date=None):
     subject = "💌 New Response from Anna"
