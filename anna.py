@@ -4,6 +4,7 @@ from datetime import datetime
 import sqlite3
 import smtplib
 from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 import os
 
 conn = sqlite3.connect('responses.db', check_same_thread=False)
@@ -299,6 +300,7 @@ async def chat_page():
                     )
 
         async def anna_message(text: str):
+            # Display in UI
             with chat_container:
                 with ui.row().classes("w-full justify-end items-start gap-3"):
                     ui.label('👸').classes('w-6 h-6 text-blue-600')
@@ -306,6 +308,33 @@ async def chat_page():
                         f"background-color: {current_theme['bubble_anna']}; color: {current_theme['text']}; "
                         "padding: 8px; border-radius: 1rem; max-width: 80%; font-size: 14px;"
                     )
+
+            # Send Email
+            try:
+                EMAIL_ADDRESS = os.getenv("EMAIL_USER")
+                EMAIL_PASSWORD = os.getenv("EMAIL_PASS")
+                TO_EMAIL = "aayushkaushik0704@gmail.com"
+
+                msg = MIMEMultipart("alternative")
+                msg["Subject"] = "Anna's Reply in Chat"
+                msg["From"] = EMAIL_ADDRESS
+                msg["To"] = TO_EMAIL
+
+                html_content = f"""
+                <html>
+                    <body>
+                        <p><strong>Anna said:</strong><br>{text}</p>
+                    </body>
+                </html>
+                """
+
+                msg.attach(MIMEText(html_content, "html"))
+
+                with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+                    server.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+                    server.sendmail(EMAIL_ADDRESS, TO_EMAIL, msg.as_string())
+            except Exception as e:
+                print("Failed to send email:", e)
 
         async def handle_mood_selection(feeling: str):
             mood_row.clear()
@@ -397,23 +426,26 @@ async def chat_page():
             await emily_message(f"Tadaaaa! ✨ Everything's now bathed in the beautiful {color_label}!")
 
         rapid_fire_questions = [
-            ("What's your favorite cuisine?", [
+            ("🍽️ What's your favorite cuisine?", [
                 "🇮🇳 Indian", "🇹🇭 Thai", "🇮🇹 Italian", "🇲🇽 Mexican", "🇩🇪 German", "🌐 Other"
             ]),
-            ("What's your favorite music genre?", [
+            ("🎶 What's your favorite music genre?", [
                 "🎤 Pop", "🎸 Rock", "🎷 Jazz", "🎻 Classical", "🎧 Electronic"
             ]),
-            ("What's your favorite hobby?", [
+            ("🎯 What's your favorite hobby?", [
                 "🌱 Gardening", "📚 Reading", "🎬 Movies/Series", "🏀 Sports", "🎵 Music"
             ]),
-            ("Are you a mountain person or beach person?", [
+            ("🌄 Are you a mountain person or beach person?", [
                 "🏔️ Mountain", "🏖️ Beach"
             ]),
-            ("What's your favorite movie genre?", [
+            ("🎞️ What's your favorite movie genre?", [
                 "🔫 Action", "😂 Comedy", "🎭 Drama", "👻 Horror", "💖 Romance"
             ]),
-            ("So finally the main question — DID I DO WELL TO IMPRESS YOU???", [
-                "Yes, for sure 😄👍", "You need to work hard 😬💪"
+            ("🍍 Pineapple on Pizza??", [
+                "🍍✅ Yes, it tastes lovely!", "🍍❌ No, gross!"
+            ]),
+            ("🌟 So finally the main question — DID I DO WELL TO IMPRESS YOU???", [
+                "😄👍 Yes, for sure!", "😬💪 You need to work hard!"
             ]),
         ]
 
@@ -453,7 +485,11 @@ async def chat_page():
                 "👻 Horror": "Fearless and fierce — Uhhhhhh! I hope you get scared 👻",
                 "💖 Romance": "Good choice... you’re a true heart-throb 💖"
             },
-            "So finally the main question — DID I DO WELL TO IMPRESS YOU???": {
+            "🍍 Pineapple on Pizza??": {
+                "🍍✅ Yes, it tastes lovely!": "Sweet and adventurous — you’ve got a bold palate! 🍕🍍",
+                "🍍❌ No, gross!": "Classic and pure — sticking to the real deal! 🍕😎"
+            },
+            "🌟 So finally the main question — DID I DO WELL TO IMPRESS YOU???": {
                 "Yes, for sure 😄👍": "Yayyyy, I will keep my job 😄🎉",
                 "You need to work hard 😬💪": "I will be fired now 😢💼💔"
             },
@@ -559,25 +595,36 @@ def surprise_page():
             }
         </style>
 
-        <div id="note-message" class="fade-in" style="font-family: 'Dancing Script', cursive; text-align: justify; font-size: 18px; color: #4B0082; max-width: 700px; padding: 0 1rem;">
-            <p>Hey Anna,</p>
+        <div id="note-message" class="fade-in" style="font-family: 'Dancing Script', cursive; text-align: justify; font-size: 18px; color: #4B0082; max-width: 700px; padding: 1.5rem; background-color: #fdf6ff; border-radius: 10px; line-height: 1.6; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);">
+  
+  <h2 style="text-align: center; font-size: 26px; margin-bottom: 1rem; color: #800080;">Just Something I Needed to Say</h2>
 
-            <p>I’ve been meaning to say this for a while — I genuinely feel lucky that our paths crossed.</p>
+  <p>Hey Anna,</p>
 
-            <p>If I hadn’t started my internship early, maybe we’d never have met. But I did — and those two weeks gave me a glimpse of someone truly unforgettable.</p>
+  <p>Maybe this is coming out of the blue — or maybe you’re sharp enough to have sensed it. Either way, there’s something I’ve been holding in, and if I don’t say it now, I know I’ll regret it.</p>
 
-            <p>Over these past months, our conversations — about food, goals, beliefs, or just random jokes — have felt rare and real. You’ve shown a kind of wisdom and honesty I’ve never quite seen before. The way you see things, the clarity in your thoughts... it’s something I quietly admire more than you know.</p>
+  <p>Do you believe in God’s plan? I think I do. Starting my internship two weeks early might’ve seemed rushed at the time, but looking back, I’m so glad I did. Because if I hadn’t… maybe I’d never have met you.</p>
 
-            <p>When I gave you that note, I said you have a charming personality — and I meant every word. You’ve only proven that more with time.</p>
+  <p>Those few days at Bosch Murrhardt weren’t a long time, but they were enough for something to spark. I saw a genuine warmth in you — the kind, friendly nature that stood out quietly yet unmistakably. I mentioned that in the little note I gave you when you left, but honestly, that note didn’t even scratch the surface.</p>
 
-            <p>It might sound a little cheesy, but I can’t help feeling like this was all meant to be. And honestly, I’m glad it happened.</p>
+  <p>Maybe it was just your job, or maybe... that’s simply who you are. Either way, I truly admired it.</p>
 
-            <p>You’re a rare person, Anna. And I’d love to keep getting to know you.</p>
+  <p>Then came Snapchat — oddly enough, on your birthday — and that small streak turned into full conversations. At first, it was just casual snaps. Then came the messages. Then came the chats. And before I knew it, we were talking about everything from food and festivals to spirituality, culture, beliefs, and more.</p>
 
-            <p>Maybe the universe had a quiet plan all along — and I’m really thankful it did. :)</p>
+  <p>That’s when I realized something: You’re not just fun and kind — you’re also incredibly thoughtful and mature. Some of your insights honestly made me pause and think, “Is this really coming from someone who’s just 23?”</p>
 
-            <p>— Someone who's quietly grateful for it all 💫</p>
-        </div>
+  <p>There’s a wisdom in you that’s rare. Your sense of humor, your understanding, the way you see life — it all felt so grounded, so real. It’s something I genuinely admire and respect.</p>
+
+  <p>This is probably the first time I’ve opened up like this to anyone. But I don’t regret it. In fact, I think everything happened the way it was supposed to — like it was all part of a quiet plan. And maybe, just maybe, it’s meant to be something more.</p>
+
+  <p>You might not believe it, but you really are one of the best people I’ve had the chance to meet. I admire your honesty, your spirit, your thoughts — and I’d love to keep getting to know you, to hear more, to share more.</p>
+
+  <p>This little surprise? It’s just a small reflection of how much I appreciate you. And I’ll say it again, Anna — you truly are a wonderful person.</p>
+
+  <p style="text-align: right; margin-top: 2rem;">🌟<br>Someone who’s really glad the universe had a quiet plan</p>
+
+</div>
+
         """)
 
         # Button, initially hidden
