@@ -438,6 +438,9 @@ async def chat_page():
             ("🎯 What's your favorite hobby?", [
                 "🌱 Gardening", "📚 Reading", "🎬 Movies/Series", "🏀 Sports", "🎵 Music"
             ]),
+            ("🎨 What's your favorite color?", [
+                "🔵 Blue", "🔴 Red", "🟢 Green", "🟡 Yellow", "🩷 Pink", "⚫ Black", "⚪ White"
+            ]),
             ("🌄 Are you a mountain person or beach person?", [
                 "🏔️ Mountain", "🏖️ Beach"
             ]),
@@ -477,6 +480,16 @@ async def chat_page():
                 "🏀 Sports": "A powerhouse of energy and passion — I see you! 🏅",
                 "🎵 Music": "Creative and soulful — Nice vibe! 🎶"
             },
+            "🎨 What's your favorite color?": {
+                "🔵 Blue": "Cool, calm, and full of depth — beautiful choice! 🌊",
+                "🔴 Red": "Fiery and bold — just like your spirit! 🔥",
+                "🟢 Green": "Fresh, grounded, and full of life 🌿",
+                "🟡 Yellow": "Bright and full of joy — sunshine vibes! ☀️",
+                "🩷 Pink": "Soft yet powerful — a heart made of gold (and glitter)! 🎀",
+                "⚫ Black": "Elegant and mysterious — like a midnight dream 🌌",
+                "🤍 White": "Pure and peaceful — a calming presence 🤍"
+            },
+
             "Are you a mountain person or beach person?": {
                 "🏔️ Mountain": "Peaceful, powerful, and grounded — I love it! 🏔️",
                 "🏖️ Beach": "Breezy, bright, and full of sunshine — Awesomeee! 🌊"
@@ -580,61 +593,63 @@ async def chat_page():
 @ui.page("/surprise")
 def surprise_page():
     with ui.column().classes("items-center justify-center w-full h-screen bg-gradient-to-br from-pink-100 to-rose-200"):
-        ui.label("A Note from Me to You, Anna 💕").classes("text-2xl font-bold text-pink-700 mb-4").style(
-            "font-family: 'Dancing Script', cursive;")
+        ui.label("A Note from Me to You, Anna 💕").classes(
+            "text-2xl font-bold text-pink-700 mb-4"
+        ).style("font-family: 'Dancing Script', cursive;")
 
-        with ui.row().classes("justify-center mb-6"):
+        with ui.row().classes("justify-center mb-4"):
             ui.label("💗").classes("text-3xl animate-pulse")
 
-        # Message with fade-in animation and paragraph formatting
-        ui.html("""
-        <style>
-            @keyframes fadeIn {
-                from { opacity: 0; transform: translateY(20px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-            .fade-in {
-                animation: fadeIn 2.5s ease-out forwards;
-            }
-        </style>
+        with ui.row().classes("justify-center w-full"):
+            with ui.column().classes("items-center w-full max-w-2xl px-4"):
+                ui.html("""
+                <style>
+                    @keyframes fadeIn {
+                        from { opacity: 0; transform: translateY(20px); }
+                        to { opacity: 1; transform: translateY(0); }
+                    }
+                    .fade-in {
+                        animation: fadeIn 2.5s ease-out forwards;
+                    }
+                </style>
 
-        <div id="note-message" class="fade-in" style="font-family: 'Dancing Script', cursive; text-align: justify; font-size: 18px; color: #4B0082; max-width: 700px; padding: 1.5rem; background-color: #fdf6ff; border-radius: 10px; line-height: 1.6; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);">
-  
-  <h2 style="text-align: center; font-size: 26px; margin-bottom: 1rem; color: #800080;">Just Something I Needed to Say</h2>
+                <div class="fade-in" style="font-family: 'Dancing Script', cursive; text-align: justify; font-size: 18px; color: #4B0082; background-color: #fdf6ff; border-radius: 12px; padding: 1.8rem; line-height: 1.7; box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);">
 
-  <p>Hey Anna,</p>
+                  <h2 style="text-align: center; font-size: 26px; margin-bottom: 1rem; color: #800080;">Just Something I Needed to Say</h2>
 
-  <p>Maybe this is coming out of the blue — or maybe you’re sharp enough to have sensed it. Either way, there’s something I’ve been holding in, and if I don’t say it now, I know I’ll regret it.</p>
+                  <p>Hey Anna,</p>
 
-  <p>Do you believe in God’s plan? I think I do. Starting my internship two weeks early might’ve seemed rushed at the time, but looking back, I’m so glad I did. Because if I hadn’t… maybe I’d never have met you.</p>
+                  <p>Maybe this is coming out of the blue — or maybe you’re sharp enough to have sensed it. Either way, there’s something I’ve been holding in, and if I don’t say it now, I know I’ll regret it.</p>
 
-  <p>Those few days at Bosch Murrhardt weren’t a long time, but they were enough for something to spark. I saw a genuine warmth in you — the kind, friendly nature that stood out quietly yet unmistakably. I mentioned that in the little note I gave you when you left, but honestly, that note didn’t even scratch the surface.</p>
+                  <p>Do you believe in God’s plan? I think I do. Starting my internship two weeks early might’ve seemed rushed at the time, but looking back, I’m so glad I did. Because if I hadn’t… maybe I’d never have met you.</p>
 
-  <p>Maybe it was just your job, or maybe... that’s simply who you are. Either way, I truly admired it.</p>
+                  <p>Those few days at Bosch Murrhardt weren’t a long time, but they were enough for something to spark. I saw a genuine warmth in you — the kind, friendly nature that stood out quietly yet unmistakably. I mentioned that in the little note I gave you when you left, but honestly, that note didn’t even scratch the surface.</p>
 
-  <p>Then came Snapchat — oddly enough, on your birthday — and that small streak turned into full conversations. At first, it was just casual snaps. Then came the messages. Then came the chats. And before I knew it, we were talking about everything from food and festivals to spirituality, culture, beliefs, and more.</p>
+                  <p>Maybe it was just your job, or maybe... that’s simply who you are. Either way, I truly admired it.</p>
 
-  <p>That’s when I realized something: You’re not just fun and kind — you’re also incredibly thoughtful and mature. Some of your insights honestly made me pause and think, “Is this really coming from someone who’s just 23?”</p>
+                  <p>Then came Snapchat — oddly enough, on your birthday — and that small streak turned into full conversations. At first, it was just casual snaps. Then came the messages. Then came the chats. And before I knew it, we were talking about everything from food and festivals to spirituality, culture, beliefs, and more.</p>
 
-  <p>There’s a wisdom in you that’s rare. Your sense of humor, your understanding, the way you see life — it all felt so grounded, so real. It’s something I genuinely admire and respect.</p>
+                  <p>That’s when I realized something: You’re not just fun and kind — you’re also incredibly thoughtful and mature. Some of your insights honestly made me pause and think, “Is this really coming from someone who’s just 23?”</p>
 
-  <p>This is probably the first time I’ve opened up like this to anyone. But I don’t regret it. In fact, I think everything happened the way it was supposed to — like it was all part of a quiet plan. And maybe, just maybe, it’s meant to be something more.</p>
+                  <p>There’s a wisdom in you that’s rare. Your sense of humor, your understanding, the way you see life — it all felt so grounded, so real. It’s something I genuinely admire and respect.</p>
 
-  <p>You might not believe it, but you really are one of the best people I’ve had the chance to meet. I admire your honesty, your spirit, your thoughts — and I’d love to keep getting to know you, to hear more, to share more.</p>
+                  <p>This is probably the first time I’ve opened up like this to anyone. But I don’t regret it. In fact, I think everything happened the way it was supposed to — like it was all part of a quiet plan. And maybe, just maybe, it’s meant to be something more.</p>
 
-  <p>This little surprise? It’s just a small reflection of how much I appreciate you. And I’ll say it again, Anna — you truly are a wonderful person.</p>
+                  <p>You might not believe it, but you really are one of the best people I’ve had the chance to meet. I admire your honesty, your spirit, your thoughts — and I’d love to keep getting to know you, to hear more, to share more.</p>
 
-  <p style="text-align: right; margin-top: 2rem;">🌟<br>Someone who’s really glad the universe had a quiet plan</p>
+                  <p>This little surprise? It’s just a small reflection of how much I appreciate you. And I’ll say it again, Anna — you truly are a wonderful person.</p>
 
-</div>
+                  <p style="text-align: right; margin-top: 2rem;">🌟<br>Someone who’s really glad the universe had a quiet plan</p>
+                </div>
+                """)
 
-        """)
+        # Button section (revealed with JS)
+        ui.button("Continue to the Last Stage →", on_click=lambda: ui.navigate.to("/date")).props(
+            'id=continue-btn').classes(
+            "hidden mt-6 bg-purple text-black-600 border border-pink-300 px-4 py-2 rounded-lg"
+        )
 
-        # Button, initially hidden
-        ui.button("Continue to the Last Stage →", on_click=lambda: ui.navigate.to("/date")).props('id=continue-btn').classes(
-            "hidden mt-6 bg-purple text-black-600 border border-pink-300 px-4 py-2 rounded-lg")
-
-    # JavaScript to reveal button after animation ends
+    # JavaScript to show button after 2.3s
     ui.add_body_html("""
     <script>
         setTimeout(() => {
@@ -642,6 +657,7 @@ def surprise_page():
         }, 2300);
     </script>
     """)
+
 
 def send_email_notification(rating, accepted, selected_date=None):
     subject = "💌 New Response from Anna"
@@ -830,4 +846,4 @@ def date_page():
         with ui.row().classes("mt-4"):
             ui.button("Exit ❌", on_click=close_browser).classes("bg-red-500 text-white px-4 py-2 rounded")
 
-ui.run(title="Surprise for Anna", port=8082, reload=False)
+ui.run(title="A Little Something for Anna", port=8082, reload=False)
