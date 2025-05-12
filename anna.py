@@ -32,7 +32,7 @@ def intro_page():
     ui.query('body').classes('bg-gradient-to-br from-pink-100 to-rose-200')
 
     with ui.column().classes('items-center justify-center w-full h-screen gap-4'):
-        ui.label("✨ A Little Something for You ✨").classes("text-3xl font-bold text-pink-700 mb-4").style(
+        ui.label("✨ A Little Something for You ✨").classes("text-2xl font-bold text-pink-700 mb-4").style(
             "font-family: 'Dancing Script', cursive;")
 
         with ui.row().classes("justify-center mb-6"):
@@ -113,12 +113,12 @@ def gift_gate():
 
         # Friendly and exciting header
         ui.label("🎁 Ready for the Surprise? 🎁").style(
-            "font-size: 30px; font-family: 'Lobster', cursive; font-weight: bold; color: #7851A9;"
+            "font-size: 30px; font-family: 'Lobster', cursive; font-weight: bold; color: #9D174D;"
         )
 
         # Light instruction and emotional continuity
         ui.html(''' 
-            <div style="text-align: center; font-size: 20px; color: #6B021D; font-family: 'Dancing Script', cursive;">
+            <div style="text-align: center; font-size: 20px; color: #7851A9; font-family: 'Dancing Script', cursive;">
                 Anna, this magical gate hides your surprise!<br><br>
                 Tap the gift slowly <b>13 times</b> and let the universe unfold something special ✨
             </div>
@@ -580,11 +580,7 @@ async def chat_page():
                 for label, value in moods.items():
                     ui.button(
                         label,
-                        on_click=lambda e=None, m=value: (
-                            handle_mood_selection(m),
-                            send_chat_email_summary(),  # call your email sender here
-                            ui.navigate.to('/surprise')
-                        )
+                        on_click=lambda e=None, m=value: handle_mood_selection(m)
                     ).classes("bg-pink-400 text-white text-sm px-3 py-1.5 rounded-lg font-small").props("flat")
 
         await start_chat()
