@@ -245,7 +245,9 @@ async def chat_page():
     # Bottom options row with buttons or options
     bottom_options_row = ui.row().classes('fixed bottom-100 left-0 right-0 justify-center gap-2 z-50')
 
-    with ui.column().classes('items-center justify-start w-full h-screen p-4 bg-[#BDC3C7]'):
+    ui.query('body').classes('m-0 p-0 overflow-hidden')
+
+    with ui.column().classes('items-center justify-start w-screen h-screen p-0 bg-[#BDC3C7]'):
 
         # Chat container with max height above the bottom space
         with ui.column().classes(
@@ -592,7 +594,11 @@ async def chat_page():
 
 @ui.page("/surprise")
 def surprise_page():
-    with ui.column().classes("items-center justify-start w-full min-h-screen bg-gradient-to-br from-pink-100 to-rose-200"):
+    ui.query('body').classes('m-0 p-0 overflow-hidden')
+
+    with ui.column().classes(
+            "items-center justify-start w-screen h-screen bg-gradient-to-br from-pink-100 to-rose-200"
+    ):
         ui.label("A Note from Me to You, Anna 💕").classes(
             "text-2xl font-bold text-pink-700 mt-6 mb-4"
         ).style("font-family: 'Dancing Script', cursive;")
@@ -695,10 +701,11 @@ def send_email_notification(rating, accepted, selected_date=None):
 
 @ui.page("/date")
 def date_page():
+    ui.query('body').classes('m-0 p-0 overflow-hidden')
     state = {"date_handled": False}
 
     with ui.column().classes(
-        'h-screen w-full justify-center items-center bg-gradient-to-br from-pink-100 to-rose-200 gap-8'
+            'w-screen h-screen justify-center items-center bg-gradient-to-br from-pink-100 to-rose-200 gap-8'
     ):
         ui.html("""
         <style>
@@ -718,7 +725,7 @@ def date_page():
             }
         </style>
         <div class="fade-in">
-            <h1 style="font-size: 2rem; font-weight: bold; text-align: center; 
+            <h1 style="font-size: 1rem; font-weight: bold; text-align: center; 
                        color: #8B008B; font-family: 'Dancing Script', cursive;">
                 🎉 Welcome to the Final Stage! 🎉
             </h1>
