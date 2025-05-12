@@ -31,7 +31,8 @@ def intro_page():
     # Apply background gradient globally to body
     ui.query('body').classes('bg-gradient-to-br from-pink-100 to-rose-200')
 
-    with ui.column().classes('items-center justify-center w-full h-screen gap-4'):
+    with ui.column().classes('items-center justify-start w-full pt-20 gap-4'):
+
         ui.label("✨ A Little Something for You ✨").classes("text-2xl font-bold text-pink-700 mb-4").style(
             "font-family: 'Dancing Script', cursive;")
 
