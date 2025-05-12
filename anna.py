@@ -32,7 +32,7 @@ def intro_page():
     ui.query('body').classes('bg-gradient-to-br from-pink-100 to-rose-200')
 
     with ui.column().classes('items-center justify-center w-full h-screen gap-4'):
-        ui.label("✨ A Little Something for You ✨").classes("text-2xl font-bold text-pink-700 mb-4").style(
+        ui.label("✨ A Little Something for You ✨").classes("text-3xl font-bold text-pink-700 mb-4").style(
             "font-family: 'Dancing Script', cursive;")
 
         with ui.row().classes("justify-center mb-6"):
@@ -302,12 +302,9 @@ async def chat_page():
                         "padding: 8px; border-radius: 1rem; max-width: 80%; font-size: 14px;"
                     )
 
-        # This will store all responses together
-        all_responses = ""
+        anna_messages = []
 
         async def anna_message(text: str):
-            global all_responses  # Make sure we modify the global variable
-
             # Display in UI
             with chat_container:
                 with ui.row().classes("w-full justify-end items-start gap-3"):
@@ -317,25 +314,26 @@ async def chat_page():
                         "padding: 8px; border-radius: 1rem; max-width: 80%; font-size: 14px;"
                     )
 
-            # Append the new response to all_responses
-            all_responses += f"<p><strong>Anna said:</strong><br>{text}</p><br>"
-
-            # Send Email after each new message (or at a particular point, like after a final message)
+        def send_chat_email_summary():
             try:
+                if not anna_messages:
+                    return
+
                 EMAIL_ADDRESS = os.getenv("EMAIL_USER")
                 EMAIL_PASSWORD = os.getenv("EMAIL_PASS")
                 TO_EMAIL = "aayushkaushik0704@gmail.com"
 
                 msg = MIMEMultipart("alternative")
-                msg["Subject"] = "Anna's Responses in Chat"
+                msg["Subject"] = "Anna's Chat Summary"
                 msg["From"] = EMAIL_ADDRESS
                 msg["To"] = TO_EMAIL
+
+                html_body = "<br>".join(f"• {m}" for m in anna_messages)
 
                 html_content = f"""
                 <html>
                     <body>
-                        <p><strong>All Anna's Responses:</strong></p>
-                        {all_responses}
+                        <p><strong>Anna's responses:</strong><br>{html_body}</p>
                     </body>
                 </html>
                 """
@@ -345,6 +343,7 @@ async def chat_page():
                 with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
                     server.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
                     server.sendmail(EMAIL_ADDRESS, TO_EMAIL, msg.as_string())
+
             except Exception as e:
                 print("Failed to send email:", e)
 
@@ -581,7 +580,11 @@ async def chat_page():
                 for label, value in moods.items():
                     ui.button(
                         label,
-                        on_click=lambda e=None, m=value: handle_mood_selection(m)
+                        on_click=lambda e=None, m=value: (
+                            handle_mood_selection(m),
+                            send_chat_email_summary(),  # call your email sender here
+                            ui.navigate.to('/surprise')
+                        )
                     ).classes("bg-pink-400 text-white text-sm px-3 py-1.5 rounded-lg font-small").props("flat")
 
         await start_chat()
