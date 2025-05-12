@@ -28,7 +28,10 @@ TO_EMAIL = "aayushkaushik0704@gmail.com"  # Replace with your email to receive r
 
 @ui.page("/")
 def intro_page():
-    with ui.column().classes("items-center justify-center w-full h-screen bg-gradient-to-br from-pink-100 to-rose-200"):
+    # Apply background gradient globally to body
+    ui.query('body').classes('bg-gradient-to-br from-pink-100 to-rose-200')
+
+    with ui.column().classes('items-center justify-center w-full h-screen gap-4'):
         ui.label("✨ A Little Something for You ✨").classes("text-2xl font-bold text-pink-700 mb-4").style(
             "font-family: 'Dancing Script', cursive;")
 
@@ -110,7 +113,7 @@ def gift_gate():
 
         # Friendly and exciting header
         ui.label("🎁 Ready for the Surprise? 🎁").style(
-            "font-size: 36px; font-family: 'Lobster', cursive; font-weight: bold; color: #9D174D;"
+            "font-size: 30px; font-family: 'Lobster', cursive; font-weight: bold; color: #9D174D;"
         )
 
         # Light instruction and emotional continuity
@@ -299,7 +302,12 @@ async def chat_page():
                         "padding: 8px; border-radius: 1rem; max-width: 80%; font-size: 14px;"
                     )
 
+        # This will store all responses together
+        all_responses = ""
+
         async def anna_message(text: str):
+            global all_responses  # Make sure we modify the global variable
+
             # Display in UI
             with chat_container:
                 with ui.row().classes("w-full justify-end items-start gap-3"):
@@ -309,21 +317,25 @@ async def chat_page():
                         "padding: 8px; border-radius: 1rem; max-width: 80%; font-size: 14px;"
                     )
 
-            # Send Email
+            # Append the new response to all_responses
+            all_responses += f"<p><strong>Anna said:</strong><br>{text}</p><br>"
+
+            # Send Email after each new message (or at a particular point, like after a final message)
             try:
                 EMAIL_ADDRESS = os.getenv("EMAIL_USER")
                 EMAIL_PASSWORD = os.getenv("EMAIL_PASS")
                 TO_EMAIL = "aayushkaushik0704@gmail.com"
 
                 msg = MIMEMultipart("alternative")
-                msg["Subject"] = "Anna's Reply in Chat"
+                msg["Subject"] = "Anna's Responses in Chat"
                 msg["From"] = EMAIL_ADDRESS
                 msg["To"] = TO_EMAIL
 
                 html_content = f"""
                 <html>
                     <body>
-                        <p><strong>Anna said:</strong><br>{text}</p>
+                        <p><strong>All Anna's Responses:</strong></p>
+                        {all_responses}
                     </body>
                 </html>
                 """
