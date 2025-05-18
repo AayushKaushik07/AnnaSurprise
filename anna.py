@@ -1,25 +1,10 @@
 from nicegui import ui
 import asyncio
 from datetime import datetime
-import sqlite3
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import os
-
-conn = sqlite3.connect('responses.db', check_same_thread=False)
-cursor = conn.cursor()
-
-cursor.execute('''
-CREATE TABLE IF NOT EXISTS responses (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    rating INTEGER,
-    accepted_date_invite BOOLEAN,
-    selected_date TEXT,
-    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
-)
-''')
-conn.commit()
 
 # Load credentials securely from environment variables
 EMAIL_ADDRESS = os.getenv("EMAIL_USER")
@@ -116,14 +101,14 @@ def intro_page():
     # Main content wrapper
     with ui.column().props('id=main-content').classes('main-content items-center justify-start w-full pt-20 gap-4'):
         ui.label("✨ A Little Something For You ✨").classes(
-            "text-3xl font-bold text-pink-700 mb-4"
+            "text-2xl font-bold text-pink-700 mb-4"
         ).style("font-family: 'Dancing Script', cursive;")
 
         with ui.row().classes("justify-center mb-6"):
             ui.label("🎁").classes("text-4xl animate-pulse")
 
         ui.html("""
-        <div id="message-box" class="fade-in" style="margin-bottom: 12px; font-weight: 600; font-size: 20px;">
+        <div id="message-box" class="fade-in" style="margin-bottom: 12px; font-weight: 600; font-size: 14px;">
             <p><b>Dear Anna 📩,</b></p>
             <p>This is something truly special — crafted just for you, with care, thought, and effort.</p>
             <p>Here’s what awaits you on this little journey:</p>
@@ -210,7 +195,7 @@ def gift_gate():
             }
 
             .overlay h1 {
-                font-size: 3rem;
+                font-size: 2rem;
                 margin-bottom: 1rem;
                 color: #D97706; /* amber-600 for vintage gold */
                 font-family: 'Dancing Script', cursive;
@@ -280,13 +265,13 @@ def gift_gate():
 
         # Header with Lobster font, matching previous heading style
         ui.label("🎁 Ready for the Surprise ??? 🎁").style(
-            "font-size: 32px; font-family: 'Dancing Script', cursive; font-weight: bold; color: #9D174D;"
+            "font-size: 24px; font-family: 'Dancing Script', cursive; font-weight: bold; color: #9D174D;"
         )
 
         ui.html('''
             <div style="
                 text-align: center;
-                font-size: 20px;
+                font-size: 14px;
                 color: #4B0082;          
                 font-family: 'Cormorant Garamond', serif;
                 font-weight: 300;         
@@ -462,7 +447,7 @@ async def chat_page():
                 user-select: none;
             }
             .overlay h1 {
-                font-size: 3rem;
+                font-size: 2rem;
                 margin-bottom: 1rem;
                 color: #D97706; /* amber-600 vintage gold */
                 font-family: 'Dancing Script', cursive;
@@ -989,7 +974,7 @@ def surprise_page():
                 user-select: none;
             }
             .overlay h1 {
-                font-size: 3rem;
+                font-size: 2rem;
                 margin-bottom: 1rem;
                 color: #D97706; /* amber-600 vintage gold */
                 font-family: 'Dancing Script', cursive;
@@ -1189,7 +1174,7 @@ def show_thank_you_overlay():
             </div>
             <div style="
                 position: absolute;
-                bottom: 20px;
+                bottom: 60px;
                 font-size: 0.8rem;
                 opacity: 0.6;
                 font-family: 'Cormorant Garamond', serif;
@@ -1234,7 +1219,7 @@ def date_page():
                 user-select: none;
             }
             .overlay h1 {
-                font-size: 3rem;
+                font-size: 2rem;
                 margin-bottom: 1rem;
                 color: #D97706;
                 font-family: 'Dancing Script', cursive;
@@ -1282,15 +1267,15 @@ def date_page():
     ).style("font-family: 'Cormorant Garamond', serif; padding: 2rem;"):
 
         ui.label("🎉✨ Welcome to the Final Stage! ✨🎉").style(
-            "font-family: 'Dancing Script', cursive; font-weight: bold; color: #9D174D; font-size: 2.5rem; margin-bottom: 1rem;"
+            "font-family: 'Dancing Script', cursive; font-weight: bold; color: #9D174D; font-size: 1.5rem; margin-bottom: 1rem;"
         )
 
         ui.label("So happy you’re here !!!").style(
-            "font-size: 1.2rem; color: #6b123d; margin-bottom: 1rem;"
+            "font-size: 1rem; color: #6b123d; margin-bottom: 1rem;"
         )
 
         ui.label("🌟 Anna, how would you rate your overall experience with me? 🌟").style(
-            "font-size: 1.2rem; color: #6b123d; margin-bottom: 1rem;"
+            "font-size: 1rem; color: #6b123d; margin-bottom: 1rem;"
         )
 
         rating_slider = ui.slider(min=1, max=10, value=5, step=1)
