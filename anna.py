@@ -267,7 +267,7 @@ def gift_gate():
     with ui.column().props('id=gate-main').classes('fade-in items-center justify-center w-full h-screen gap-6 px-4').style('opacity: 0; pointer-events: none;'):
 
         # Header with Lobster font, matching previous heading style
-        ui.label("🎁 Ready for the Surprise ??? 🎁").style(
+        ui.label("🎁 Are You Ready ??? 🎁").style(
             "font-size: 24px; font-family: 'Dancing Script', cursive; font-weight: bold; color: #9D174D;"
         )
 
@@ -356,7 +356,7 @@ def gift_gate():
                 ''')
 
                 proceed_btn = ui.button(
-                    "Enter the Realm ➡️",
+                    "Enter the Realm ✨🚪",
                     on_click=lambda: ui.navigate.to('/chat')
                 ).props('id=enter-realm-btn').classes(
                     "mt-6 bg-pink-700 text-white font-semibold shadow-lg px-6 py-3 rounded-xl "
@@ -573,7 +573,7 @@ async def chat_page():
                 ui.label('🧚').classes('w-5 h-5 text-purple-600')
                 ui.label(text).classes("").style(
                     f"background-color: {current_theme['bubble_emily']}; color: {current_theme['text']}; "
-                    "padding: 8px; border-radius: 1rem; max-width: 80%; font-size: 16px;"
+                    "padding: 8px; border-radius: 1rem; max-width: 80%; font-size: 15px;"
                 )
 
     async def anna_message(text: str):
@@ -583,7 +583,7 @@ async def chat_page():
                 ui.label('👸').classes('w-5 h-5 text-blue-600')
                 ui.label(text).classes("").style(
                     f"background-color: {current_theme['bubble_anna']}; color: {current_theme['text']}; "
-                    "padding: 8px; border-radius: 1rem; max-width: 80%; font-size: 16px;"
+                    "padding: 8px; border-radius: 1rem; max-width: 80%; font-size: 15px;"
                 )
 
         # Send Email
@@ -662,7 +662,7 @@ async def chat_page():
         elif answer == "No, who are you?":
             await emily_message("Oh noo! 😱 You don't know me? That hurts... Just kidding! 😅")
             await asyncio.sleep(2)
-            await emily_message("I'm Emily — nice to meet you.")
+            await emily_message("I'm Emily — nice to meet you 😊")
             await asyncio.sleep(2)
             await emily_message("And yes, I was created by someone who thinks he’s the smartest person alive 😂")
             await asyncio.sleep(2)
@@ -817,10 +817,10 @@ async def chat_page():
 
     async def start_rapid_fire():
         await asyncio.sleep(2)
-        await emily_message("Now let's play a rapid-fire round! ⚡️")
+        await emily_message("Do you fancy a rapid-fire round ? ⚡️")
         await asyncio.sleep(1)
         await emily_message("Be honest as someone might be watching you 👀")
-        await asyncio.sleep(2)
+        await asyncio.sleep(3)
         await ask_next_rapid_question()
 
     async def ask_next_rapid_question():
@@ -879,7 +879,7 @@ async def chat_page():
         await emily_message("My journey with you *for now* ends here... and honestly, I feel a bit emotional. 🥺")
         await asyncio.sleep(2)
         await emily_message("But I truly hope we meet again, very soon. 💫")
-        await asyncio.sleep(2)
+        await asyncio.sleep(3)
         await emily_message("Something straight from my creator is coming your way... Click below to reveal it... 👇")
 
         await asyncio.sleep(1)  # smooth pause before UI changes
@@ -1170,7 +1170,7 @@ def show_thank_you_overlay():
             background-color: black;
             color: white;
             font-family: 'Dancing Script', cursive;
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -1372,7 +1372,7 @@ def date_page():
                 )
 
                 ui.label(poem).classes("text-lg text-pink-900 whitespace-pre-line").style(
-                    "font-family: 'Dancing Script', cursive; font-weight: 400;")
+                    "font-family: 'Dancing Script', cursive; font-weight: 600;")
 
                 with ui.row().classes("gap-4"):
                     ui.button("Yes 💕", on_click=lambda: ui.navigate.to("/yes-date")).classes(
