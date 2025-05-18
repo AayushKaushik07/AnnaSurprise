@@ -197,8 +197,10 @@ def gift_gate():
             .overlay h1 {
                 font-size: 2rem;
                 margin-bottom: 1rem;
-                color: #D97706; /* amber-600 for vintage gold */
+                color: #D97706;
                 font-family: 'Dancing Script', cursive;
+                text-align: center;
+            }
             }
 
             .countdown {
@@ -449,8 +451,10 @@ async def chat_page():
             .overlay h1 {
                 font-size: 2rem;
                 margin-bottom: 1rem;
-                color: #D97706; /* amber-600 vintage gold */
+                color: #D97706;
                 font-family: 'Dancing Script', cursive;
+                text-align: center;
+            }
             }
         </style>
     ''')
@@ -976,8 +980,10 @@ def surprise_page():
             .overlay h1 {
                 font-size: 2rem;
                 margin-bottom: 1rem;
-                color: #D97706; /* amber-600 vintage gold */
+                color: #D97706;
                 font-family: 'Dancing Script', cursive;
+                text-align: center;
+            }
             }
             #gate-main {
                 opacity: 0;
@@ -1223,6 +1229,9 @@ def date_page():
                 margin-bottom: 1rem;
                 color: #D97706;
                 font-family: 'Dancing Script', cursive;
+                text-align: center;
+            }
+
             }
             #gate-main {
                 opacity: 0;
