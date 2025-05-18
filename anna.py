@@ -433,7 +433,7 @@ THEME_COLORS = {
 async def chat_page():
     ui.add_head_html('''
         <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Staatliches&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Kalam&family=Courgette&family=Satisfy&display=swap" rel="stylesheet">
         <style>
             .overlay {
                 position: fixed;
@@ -495,7 +495,7 @@ async def chat_page():
         with ui.column().classes(
              "w-full max-w-md bg-white p-3 rounded-xl shadow-md gap-3 overflow-y-auto flex-grow font-bold"
             ).props("id=chat-container").style(
-            "max-height: 600px; font-family: 'Poppins', sans-serif; font-size: 30px;"
+            "max-height: 600px; font-family: 'Kalam', cursive; font-size: 30px;"
             ) as chat_container:
             typing_label = ui.label('').classes('text-gray-500 italic text-sm')
 
@@ -1170,7 +1170,7 @@ def show_thank_you_overlay():
             background-color: black;
             color: white;
             font-family: 'Dancing Script', cursive;
-            font-size: 2rem;
+            font-size: 1.25rem;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -1356,8 +1356,8 @@ def date_page():
 
         with ui.row().classes("w-screen h-screen items-center justify-center fade-in-slow"):
             with ui.column().classes("items-center justify-center gap-6 text-center"):
-                ui.label("A little something from the part-time poet... ✍️").classes("text-2xl text-pink-800").style(
-                    "font-family: 'Dancing Script', cursive; font-weight: 600px;"
+                ui.label("A little something from the part-time poet... ✍️").classes("text-xl text-pink-800").style(
+                    "font-family: 'Dancing Script', cursive; font-weight: 600;"
                 )
 
                 poem = (
@@ -1372,7 +1372,7 @@ def date_page():
                 )
 
                 ui.label(poem).classes("text-lg text-pink-900 whitespace-pre-line").style(
-                    "font-family: 'Dancing Script', cursive;")
+                    "font-family: 'Dancing Script', cursive; font-weight: 400;")
 
                 with ui.row().classes("gap-4"):
                     ui.button("Yes 💕", on_click=lambda: ui.navigate.to("/yes-date")).classes(
