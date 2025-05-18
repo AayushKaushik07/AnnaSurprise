@@ -113,7 +113,7 @@ def intro_page():
             <p>This is something truly special — crafted just for you, with care, thought, and effort.</p>
             <p>Here’s what awaits you on this little journey:</p>
             <ul style="list-style: none; padding-left: 0; margin-bottom: 12px;">
-                <li>1️⃣ A Gate to the Surprise 🎁</li>
+                <li>1️⃣ A Gateway to the Surprise 🎁</li>
                 <li>2️⃣ A Magical Encounter with Emily ✨</li>
                 <li>3️⃣ The Main Event You Deserve 🎉</li>
                 <li>4️⃣ A Thoughtful Follow-up & A Final Word 💬</li>
@@ -797,14 +797,14 @@ async def chat_page():
         },
         "🎞️ What's your favorite movie genre?": {
             "🔫 Action": "You love the thrill — definitely a bold soul! 💥",
-            "😂 Comedy": "Aha! So you’re the fun one in the group! 😂",
+            "😂 Comedy": "Ahaa! Now I know the reason behind your humor! 😂",
             "🎭 Drama": "So emotional and deep — I'm intrigued 🎭",
             "👻 Horror": "Fearless and fierce — or secretly scared? 👻😜",
             "💖 Romance": "A hopeless romantic? I like that! 💘",
             "default": "You’ve got great cinematic taste! 🍿"
         },
         "🍍 Pineapple on Pizza??": {
-            "🍍✅ Yes, it belongs there!": "Sweet and adventurous — daring choice! 🍕🍍",
+            "🍍✅ Yes, it belongs there!": "Sweet and adventurous — a daring choice! 🍕🍍",
             "🍍❌ No, gross!": "Classic and pure — a loyal foodie! 🍕😎",
             "default": "Ooooh, interesting choice! You’re definitely unique. 😄"
         },
@@ -822,7 +822,7 @@ async def chat_page():
         await emily_message("Be honest as someone might be watching you 👀")
         await asyncio.sleep(2)
         await emily_message("Let's gooo !")
-        await asyncio.sleep(2)
+        await asyncio.sleep(1)
         await ask_next_rapid_question()
 
     async def ask_next_rapid_question():
@@ -1358,7 +1358,8 @@ def date_page():
 
         with ui.row().classes("w-screen h-screen items-center justify-center fade-in-slow"):
             with ui.column().classes("items-center justify-center gap-6 text-center"):
-                ui.label("A little something from the part-time poet... ✍️").classes("text-xl text-pink-800").style(
+                ui.label("A little something from the part-time poet... ✍️").classes(
+                    "text-xl text-purple-800 font-bold").style(
                     "font-family: 'Dancing Script', cursive; font-weight: 600;"
                 )
 
@@ -1374,12 +1375,13 @@ def date_page():
                 )
 
                 ui.label(poem).classes("text-lg text-pink-900 whitespace-pre-line").style(
-                    "font-family: 'Dancing Script', cursive; font-weight: 600;")
+                    "font-family: 'Dancing Script', cursive; font-weight: 300;"
+                )
 
                 with ui.row().classes("gap-4"):
                     ui.button("Yes 💕", on_click=lambda: ui.navigate.to("/yes-date")).classes(
                         "bg-green-500 text-white px-4 py-2 rounded")
-                    ui.button("Not yet 🙈", on_click=lambda: ui.navigate.to("/no-date")).classes(
+                    ui.button("Maybe Not 🙈", on_click=lambda: ui.navigate.to("/no-date")).classes(
                         "bg-gray-400 text-white px-4 py-2 rounded")
 
     # 💕 /yes-date page
@@ -1396,7 +1398,7 @@ def date_page():
                     selected = str(date_picker.value)
                     selected_date_text.text = f"Mission Successful ! Can't wait for {selected}! 🎉"
                     send_email_notification(rating_value, True, selected)
-                    ui.notify("Date saved 💌", type="positive", duration=3)
+                    ui.notify("Date saved 💌", type="positive", duration=5)
 
                     ui.run_javascript("""
                                         setTimeout(() => {
