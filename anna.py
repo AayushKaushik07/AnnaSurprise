@@ -692,7 +692,7 @@ async def chat_page():
         # Optional dramatic countdown
         await emily_message("Okay, deep breath. First, I am going to show you a magic trick !")
         await asyncio.sleep(2)
-        await emily_message("It starts in...3")
+        await emily_message("It starts in 3...")
         await asyncio.sleep(1)
         await emily_message("2...")
         await asyncio.sleep(1)
@@ -820,7 +820,9 @@ async def chat_page():
         await emily_message("Do you fancy a rapid-fire round ? ⚡️")
         await asyncio.sleep(1)
         await emily_message("Be honest as someone might be watching you 👀")
-        await asyncio.sleep(3)
+        await asyncio.sleep(2)
+        await emily_message("Let's gooo !")
+        await asyncio.sleep(2)
         await ask_next_rapid_question()
 
     async def ask_next_rapid_question():
@@ -872,14 +874,14 @@ async def chat_page():
 
     async def wrap_up_before_big_reveal():
         await asyncio.sleep(2)
+        await emily_message("So Anna, my journey with you *for now* ends here... and honestly, I feel a bit emotional. 🥺")
+        await asyncio.sleep(2)
+        await emily_message("But I truly hope we meet again, very soon. 💫")
+        await asyncio.sleep(2)
         await emily_message("I really hope I managed to impress you and put a smile on your face 😇")
         await asyncio.sleep(2)
         await emily_message("Because now comes the Main Event... 🎁")
         await asyncio.sleep(2)
-        await emily_message("My journey with you *for now* ends here... and honestly, I feel a bit emotional. 🥺")
-        await asyncio.sleep(2)
-        await emily_message("But I truly hope we meet again, very soon. 💫")
-        await asyncio.sleep(3)
         await emily_message("Something straight from my creator is coming your way... Click below to reveal it... 👇")
 
         await asyncio.sleep(1)  # smooth pause before UI changes
@@ -1008,7 +1010,7 @@ def surprise_page():
     ''')
 
     with ui.column().classes('items-center justify-start w-screen h-screen gap-4'):
-        ui.label("A Note from Me to You, Anna 💕").classes(
+        ui.label("A Note from Me to You, Anna").classes(
             "text-2xl font-bold text-pink-700 mt-6 mb-4"
         ).style("font-family: 'Dancing Script', cursive; font-weight: 600; ")
 
@@ -1284,7 +1286,7 @@ def date_page():
             'items-center justify-center w-screen h-screen gap-8 text-center bg-gradient-to-br from-pink-100 to-rose-200'
     ).style("font-family: 'Cormorant Garamond', serif; padding: 2rem;"):
 
-        ui.label("🎉✨ Welcome to the Finalle ! ✨🎉").style(
+        ui.label("🎉✨ Welcome to the Finale! ✨🎉").style(
             "font-family: 'Dancing Script', cursive; font-weight: bold; color: #9D174D; font-size: 1.5rem; margin-bottom: 1rem;"
         )
 
