@@ -259,7 +259,8 @@ def gift_gate():
     # Overlay HTML (Stage 1 and countdown)
     ui.add_body_html('''
         <div id="black-overlay" class="overlay">
-            <h1>Stage 1: Gateway to the Surprise</h1>
+            <h1>Stage 1: </h1>
+            <h1>Gateway to the Surprise</h1>
         </div>
     ''')
 
@@ -432,6 +433,7 @@ THEME_COLORS = {
 async def chat_page():
     ui.add_head_html('''
         <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Staatliches&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
         <style>
             .overlay {
                 position: fixed;
@@ -461,7 +463,8 @@ async def chat_page():
 
     ui.add_body_html('''
         <div id="black-overlay" class="overlay">
-            <h1>Stage 2: A Magical Encounter with Emily</h1>
+            <h1>Stage 2:</h1>
+            <h1>A Magical Encounter with Emily</h1>
         </div>
     ''')
 
@@ -490,10 +493,10 @@ async def chat_page():
     with ui.column().classes('items-center justify-start w-full h-screen p-4 bg-[#BDC3C7]'):
         # Chat container with scroll and proper id
         with ui.column().classes(
-                "w-full max-w-md bg-white p-3 rounded-xl shadow-md gap-3 overflow-y-auto flex-grow font-bold"
-        ).props("id=chat-container").style(
-            "max-height: 600px; font-family: 'Dancing Script', cursive; font-size: 30px;"
-        ) as chat_container:
+             "w-full max-w-md bg-white p-3 rounded-xl shadow-md gap-3 overflow-y-auto flex-grow font-bold"
+            ).props("id=chat-container").style(
+            "max-height: 600px; font-family: 'Poppins', sans-serif; font-size: 30px;"
+            ) as chat_container:
             typing_label = ui.label('').classes('text-gray-500 italic text-sm')
 
         # Bottom mood row (input area or emotion buttons etc.)
@@ -504,24 +507,28 @@ async def chat_page():
         ) as mood_row:
             pass
 
-    # Run JavaScript for smooth auto-scroll behavior
     ui.run_javascript("""
         const chatContainer = document.getElementById('chat-container');
         let autoScroll = true;
 
         function scrollToBottom() {
             if (autoScroll) {
-                chatContainer.scrollTop = chatContainer.scrollHeight;
+                chatContainer.scrollTo({
+                    top: chatContainer.scrollHeight,
+                    behavior: 'smooth'
+                });
             }
         }
 
         chatContainer.addEventListener('scroll', () => {
             const position = chatContainer.scrollTop + chatContainer.clientHeight;
-            const nearBottom = position >= chatContainer.scrollHeight - 30;
+            const nearBottom = position >= chatContainer.scrollHeight - 10;
             autoScroll = nearBottom;
         });
 
-        setInterval(scrollToBottom, 300);
+        // Observe changes in chat container for new messages
+        const observer = new MutationObserver(scrollToBottom);
+        observer.observe(chatContainer, { childList: true, subtree: true });
     """)
 
     def update_ui_theme(color_label: str, current_theme: dict):
@@ -738,7 +745,7 @@ async def chat_page():
             "🔫 Action", "😂 Comedy", "🎭 Drama", "👻 Horror", "💖 Romance"
         ]),
         ("🍍 Pineapple on Pizza??", [
-            "🍍✅ Yes, it tastes lovely!", "🍍❌ No, gross!"
+            "🍍✅ Yes, it belongs there!", "🍍❌ No, gross!"
         ]),
         ("🌟 So finally, the main question — DID I DO WELL TO IMPRESS YOU???", [
             "😄👍 Yes, for sure!", "😬💪 You need to work hard!"
@@ -797,7 +804,7 @@ async def chat_page():
             "default": "You’ve got great cinematic taste! 🍿"
         },
         "🍍 Pineapple on Pizza??": {
-            "🍍✅ Yes, it tastes lovely!": "Sweet and adventurous — daring choice! 🍕🍍",
+            "🍍✅ Yes, it belongs there!": "Sweet and adventurous — daring choice! 🍕🍍",
             "🍍❌ No, gross!": "Classic and pure — a loyal foodie! 🍕😎",
             "default": "Ooooh, interesting choice! You’re definitely unique. 😄"
         },
@@ -812,7 +819,7 @@ async def chat_page():
         await asyncio.sleep(2)
         await emily_message("Now let's play a rapid-fire round! ⚡️")
         await asyncio.sleep(1)
-        await emily_message("Be honest as someone is watching you 👀")
+        await emily_message("Be honest as someone might be watching you 👀")
         await asyncio.sleep(2)
         await ask_next_rapid_question()
 
@@ -829,7 +836,7 @@ async def chat_page():
             typing_label.text = "Emily is typing..."
             await asyncio.sleep(1.5)
             typing_label.text = ""
-            await emily_message("Phewww! That was so much fun! 🥳 You’ve got some really cool taste, Anna!")
+            await emily_message("Phewww! That was so much fun! 🥳 You’ve got some really cool taste, Anna !")
             await asyncio.sleep(2)
             await emily_message("But wait... I’ve got one more trick up my sleeve. Wanna hear some jokes? 🤡")
             await asyncio.sleep(2)
@@ -852,10 +859,10 @@ async def chat_page():
             typing_label.text = ""
             await emily_message(setup)  # send setup
 
-            await asyncio.sleep(1.5)  # wait before punchline
+            await asyncio.sleep(2)  # wait before punchline
 
             typing_label.text = "Emily is typing..."
-            await asyncio.sleep(2)  # simulate typing for punchline
+            await asyncio.sleep(2.5)  # simulate typing for punchline
             typing_label.text = ""
             await emily_message(punchline)  # send punchline
 
@@ -869,11 +876,11 @@ async def chat_page():
         await asyncio.sleep(2)
         await emily_message("Because now comes the Main Event... 🎁")
         await asyncio.sleep(2)
-        await emily_message("My journey with you *for now* ends here... and honestly, I feel a bit emotional.")
+        await emily_message("My journey with you *for now* ends here... and honestly, I feel a bit emotional. 🥺")
         await asyncio.sleep(2)
         await emily_message("But I truly hope we meet again, very soon. 💫")
         await asyncio.sleep(2)
-        await emily_message("Something straight from the creator is coming your way. Click below to reveal it... 👇")
+        await emily_message("Something straight from my creator is coming your way... Click below to reveal it... 👇")
 
         await asyncio.sleep(1)  # smooth pause before UI changes
         bottom_options_row.clear()
@@ -995,7 +1002,8 @@ def surprise_page():
 
     ui.add_body_html('''
         <div id="black-overlay" class="overlay">
-            <h1>Stage 3: The Main Event</h1>
+            <h1>Stage 3: </h1>
+            <h1>The Main Event</h1>
         </div>
     ''')
 
@@ -1069,7 +1077,7 @@ def surprise_page():
 
                   <p>Maybe it was a part of your job, or maybe... that’s simply who you are. Either way, I truly admired it.</p>
 
-                  <p>Then came Snapchat — oddly enough, on your birthday. At first, it was just casual snaps. Then came the messages inside snaps and then came the chats. And before I knew it, we were talking about everything from food and festivals to spirituality, culture, beliefs, and more.</p>
+                  <p>Then came Snapchat, which became our main way of connecting. At first, it was just casual snaps, then messages inside snaps, and finally full conversations. Before I knew it, we were talking about everything — from food and festivals to spirituality, culture, beliefs, and more.</p>
 
                   <p>That’s when I realized something: You’re not just fun and kind — you’re also incredibly thoughtful and mature. Some of your insights honestly made me pause and think, “Is this really coming from someone who’s just 23?”</p>
 
@@ -1180,7 +1188,7 @@ def show_thank_you_overlay():
             </div>
             <div style="
                 position: absolute;
-                bottom: 60px;
+                bottom: 100px;
                 font-size: 0.8rem;
                 opacity: 0.6;
                 font-family: 'Cormorant Garamond', serif;
@@ -1251,7 +1259,8 @@ def date_page():
     # Intro overlay
     ui.add_body_html('''
         <div id="black-overlay" class="overlay">
-            <h1>Stage 4: The Final Feedback</h1>
+            <h1>Stage 4:</h1>
+            <h1>The Final Feedback</h1>
         </div>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
@@ -1275,7 +1284,7 @@ def date_page():
             'items-center justify-center w-screen h-screen gap-8 text-center bg-gradient-to-br from-pink-100 to-rose-200'
     ).style("font-family: 'Cormorant Garamond', serif; padding: 2rem;"):
 
-        ui.label("🎉✨ Welcome to the Final Stage! ✨🎉").style(
+        ui.label("🎉✨ Welcome to the Finalle ! ✨🎉").style(
             "font-family: 'Dancing Script', cursive; font-weight: bold; color: #9D174D; font-size: 1.5rem; margin-bottom: 1rem;"
         )
 
@@ -1301,7 +1310,7 @@ def date_page():
             if rating_value >= 6:
                 ui.navigate.to("/poem")
             else:
-                feedback_label.text = "😔 Thank you for your honesty! You’re still amazing 💖"
+                feedback_label.text = "😔 Thank you for your honesty! You’re still amazing !!!"
                 send_email_notification(rating_value, False, None)
 
                 ui.run_javascript("""
@@ -1347,14 +1356,21 @@ def date_page():
 
         with ui.row().classes("w-screen h-screen items-center justify-center fade-in-slow"):
             with ui.column().classes("items-center justify-center gap-6 text-center"):
-                ui.label("💖 A little something from the heart...").classes("text-2xl text-pink-800").style(
-                    "font-family: 'Dancing Script', cursive; font-weight:600px")
-                poem = (
-                    "In a world of stars, you shine so bright,\n"
-                    "A dazzling charm, a glowing light.\n"
-                    "With every smile, my heart takes flight —\n"
-                    "Would you join me on a date one night? 💫"
+                ui.label("A little something from the part-time poet... ✍️").classes("text-2xl text-pink-800").style(
+                    "font-family: 'Dancing Script', cursive; font-weight: 600px;"
                 )
+
+                poem = (
+                    "Roses are red, violets are blue,\n"
+                    "Meeting you felt like something new.\n"
+                    "A spark, a smile, a moment so true —\n"
+                    "I’d love to spend some time with you.\n\n"
+                    "From chats to laughs, and moments we share,\n"
+                    "It’s clear you’re someone beyond compare.\n"
+                    "So here’s my hope, simple and straight —\n"
+                    "Would you join me for a date? 🌟😊"
+                )
+
                 ui.label(poem).classes("text-lg text-pink-900 whitespace-pre-line").style(
                     "font-family: 'Dancing Script', cursive;")
 
@@ -1376,7 +1392,7 @@ def date_page():
 
                 def confirm():
                     selected = str(date_picker.value)
-                    selected_date_text.text = f"Can't wait for {selected}! 🎉"
+                    selected_date_text.text = f"Mission Successful ! Can't wait for {selected}! 🎉"
                     send_email_notification(rating_value, True, selected)
                     ui.notify("Date saved 💌", type="positive", duration=3)
 
@@ -1395,7 +1411,7 @@ def date_page():
 
         with ui.row().classes("w-screen h-screen items-center justify-center bg-rose-100"):
             with ui.column().classes("items-center justify-center gap-6 text-center"):
-                ui.label("That's okay! I’ll be here when you're ready. 💗").classes("text-xl text-rose-700").style(
+                ui.label("That's okay! I still want to tell you that you're Amazing ... 💗").classes("text-xl text-rose-700").style(
                     "font-family: 'Dancing Script', cursive;")
                 # Use ui.timer to delay the navigation by 5 seconds
                 ui.run_javascript("""
