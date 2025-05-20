@@ -1392,10 +1392,11 @@ def date_page():
 
         with ui.row().classes("w-screen h-screen items-center justify-center fade-in-slow"):
             with ui.column().classes("items-center justify-center gap-6 text-center"):
-                ui.label("A quiet thought, wrapped in rhyme... 🌸").classes(
+                ui.label("A quiet thought, wrapped in rhyme...").classes(
                     "text-xl text-purple-800 font-bold").style(
                     "font-family: 'Dancing Script', cursive; font-weight: 600;"
                 )
+                ui.label("🌸").classes("text-3xl animate-pulse")
 
                 poem = (
                     "Roses are red, violets are blue,\n"
