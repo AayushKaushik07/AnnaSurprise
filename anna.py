@@ -130,34 +130,53 @@ def intro_page():
     ui.add_body_html("""
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            let count = 7;
             const timerElement = document.getElementById('timer');
             const overlay = document.getElementById('black-overlay');
             const mainContent = document.getElementById('main-content');
+            const startBtn = document.getElementById("start-btn");
 
-            const countdown = setInterval(() => {
-                count -= 1;
-                if (count >= 0) {
-                    timerElement.textContent = count;
-                    timerElement.classList.remove("countdown");
-                    void timerElement.offsetWidth; // force reflow to restart animation
-                    timerElement.classList.add("countdown");
-                }
-                if (count <= 0) {
-                    clearInterval(countdown);
-                    setTimeout(() => {
-                        overlay.classList.add('hidden');
-                        mainContent.classList.add('visible');
+            let count = 7;
+
+            // Step 1: Animate "Ready?" smoothly
+            setTimeout(() => {
+                timerElement.textContent = "Ready?";
+                timerElement.classList.remove("countdown");
+                void timerElement.offsetWidth;
+                timerElement.classList.add("countdown");
+            }, 10); // slight delay to ensure DOM is ready
+
+            // Step 2: Start countdown after "Ready?" shows
+            setTimeout(() => {
+                const countdown = setInterval(() => {
+                    if (count >= 0) {
+                        timerElement.textContent = count;
+                        timerElement.classList.remove("countdown");
+                        void timerElement.offsetWidth;
+                        timerElement.classList.add("countdown");
+                        count--;
+                    } else {
+                        clearInterval(countdown);
+
+                        // Step 3: Show "Let's go!" smoothly
+                        timerElement.textContent = "Let's go !";
+                        timerElement.classList.remove("countdown");
+                        void timerElement.offsetWidth;
+                        timerElement.classList.add("countdown");
+
+                        // Step 4: Reveal content
                         setTimeout(() => {
-                            document.getElementById("start-btn").classList.remove("hidden");
-                        }, 2200);
-                    }, 1000);
-                }
-            }, 1000);
+                            overlay.classList.add('hidden');
+                            mainContent.classList.add('visible');
+                            setTimeout(() => {
+                                startBtn.classList.remove("hidden");
+                            }, 2200);
+                        }, 1000);
+                    }
+                }, 1000);
+            }, 1200); // wait 1.2 seconds after "Ready?" shows
         });
     </script>
     """)
-
 
 # Use ui.state to keep session variables persistent across requests
 ui.state.session = {
@@ -267,7 +286,7 @@ def gift_gate():
     with ui.column().props('id=gate-main').classes('fade-in items-center justify-center w-full h-screen gap-6 px-4').style('opacity: 0; pointer-events: none;'):
 
         # Header with Lobster font, matching previous heading style
-        ui.label("🎁 Are You Ready ??? 🎁").style(
+        ui.label("🎁 Gateway to the Surprise 🎁").style(
             "font-size: 24px; font-family: 'Dancing Script', cursive; font-weight: bold; color: #9D174D;"
         )
 
@@ -281,7 +300,7 @@ def gift_gate():
                 max-width: 480px;
                 line-height: 1.4;
                 ">
-                Anna, this magical gate hides your surprise!<br><br>
+                Anna, this magical gate hides your surprise !!! <br><br>
                 Tap the gift slowly <b style="font-weight: 600;">13 times</b> and let the universe unfold something special ✨
             </div>
         ''')
@@ -410,8 +429,8 @@ MOOD_EMOJIS = {
 compliments = {
     "Happy": "That's so wonderful to hear! You shine brightest when you're smiling ☀️😊",
     "Sad": "Awww... I didn't expect that but I am here to lift up your mood 💜😢",
-    "Excited": "Yayyyyyy! Your excitement is infectious! 🎉🤩",
-    "Curious": "Ooooo, curiosity is a sign of brilliance ✨🧐",
+    "Excited": "Yayyyy! Your excitement is infectious! 🎉🤩",
+    "Curious": "Ooohh, curiosity is a sign of brilliance ✨🧐",
     "Relaxed": "It's so great to hear you're feeling at peace! 💆‍♀️😌"
 }
 
@@ -426,7 +445,8 @@ THEME_COLORS = {
     "Sunset Red": "#D14B5D",  # Red tones
     "Emerald Green": "#50C878",  # Green tones
     "Golden Yellow": "#FFD700",  # Yellow tones
-    "Midnight Black": "#2C3E50"  # Dark tones
+    "Midnight Black": "#2C3E50",  # Dark tones
+    "Ocean Blue": "#3498DB"
 }
 
 @ui.page('/chat')
@@ -542,8 +562,16 @@ async def chat_page():
             current_theme.update(primary="#FFD700", text="#000000", bg="#FFF6E1", bubble_emily="#FFD700",
                                  bubble_anna="#FFEB8A")
         elif color_label == "Midnight Black":
-            current_theme.update(primary="#2C3E50", text="#ffffff", bg="#BDC3C7", bubble_emily="#2C3E50",
+            current_theme.update(primary="#2C3E50", text="#FFFFFF", bg="#BDC3C7", bubble_emily="#2C3E50",
                                  bubble_anna="#566573")
+        elif color_label == "Ocean Blue":
+            current_theme.update(
+            primary="#3498DB",  # sky blue (vivid but soft)
+            text="#000000",  # white for great contrast
+            bg="#5DADE2",  # lighter sky blue for background
+            bubble_emily="#2980B9",  # slightly darker blue (for Emily)
+            bubble_anna="#AED6F1"  # pale blue for Anna's responses
+        )
 
         # Apply changes to the UI
         ui.query('body').style(f"background-color: {current_theme['bg']};")
@@ -658,21 +686,23 @@ async def chat_page():
 
     async def emily_reaction_based_on_answer(answer: str):
         if answer == "Yes, I know!":
-            await emily_message("Haha! You already know me, but I still have a HUGE task ahead! 💼")
+            await emily_message("Haha! You already know me, but you don't know that I am created by the smartest person alive !")
+            await asyncio.sleep(2)
+            await emily_message("And he gave me bribe to say so. 😂")
         elif answer == "No, who are you?":
             await emily_message("Oh noo! 😱 You don't know me? That hurts... Just kidding! 😅")
             await asyncio.sleep(2)
             await emily_message("I'm Emily — nice to meet you 😊")
             await asyncio.sleep(2)
             await emily_message("And yes, I was created by someone who thinks he’s the smartest person alive 😂")
-            await asyncio.sleep(2)
+            await asyncio.sleep(1.5)
         else:
             await emily_message("Hmm, that’s a mysterious answer! 😏 I like mysteries...")
             await asyncio.sleep(2)
             await emily_message("Anyway, I’m Emily — created by the so-called genius who bribed me to say that 😜")
-            await asyncio.sleep(2)
+            await asyncio.sleep(1)
 
-        await asyncio.sleep(2)
+        await asyncio.sleep(1)
         await emily_talk_about_her_big_task()
 
     # Emily explains her mission
@@ -760,8 +790,8 @@ async def chat_page():
             "🇹🇭 Thai": "Sweet, spicy, and unique — Tastyyy! 🍜",
             "🇮🇹 Italian": "A classy choice — you have elegant taste 🍝",
             "🇲🇽 Mexican": "Bold and colorful — a true firecracker! 🌮",
-            "🇩🇪 German": "Strong, hearty, and full of surprises — I like it! 🥨",
-            "🌐 Other": "Ooh, exotic! I’d love to try it with you someday. 😋",
+            "🇩🇪 German": "Strong, hearty, and full of carbs — I like it! 🥨",
+            "🌐 Other": "I'll get to know soon, dont worry! 😋",
             "default": "That sounds delicious! You've got amazing taste! 🍽️"
         },
         "🎶 What's your favorite music genre?": {
@@ -844,6 +874,8 @@ async def chat_page():
             await asyncio.sleep(2)
             await emily_message("Too late, I’m telling them anyway 😁")
             await asyncio.sleep(2)
+            await emily_message("Let's start !")
+            await asyncio.sleep(1)
             await tell_jokes()
 
     async def tell_jokes():
@@ -851,7 +883,7 @@ async def chat_page():
             ("Why did the business student bring a ladder to class?",
              "Because she heard the course was on another level! 📈😄"),
             ("What did the left eye say to the right eye?", "Between us, something smells… 👃😆"),
-            ("Why did the computer visit the doctor?", "Because it had a virus! 🦠💻"),
+            ("Why did the computer visit the doctor?", "Because it had a virus! 🦠💻😂"),
             ("Are you a magician?", "Because whenever you're around, everything else disappears... ✨😉")
         ]
 
@@ -873,6 +905,8 @@ async def chat_page():
         await wrap_up_before_big_reveal()
 
     async def wrap_up_before_big_reveal():
+        await asyncio.sleep(2)
+        await emily_message("I can sense that you are laughing right now...those jokes were fire 😂")
         await asyncio.sleep(2)
         await emily_message("So Anna, my journey with you *for now* ends here... and honestly, I feel a bit emotional. 🥺")
         await asyncio.sleep(2)
@@ -918,9 +952,9 @@ async def chat_page():
         await ask_next_rapid_question()
 
     async def start_chat():
-        await asyncio.sleep(3)
-        await emily_message("Hi Anna 🌸 Welcome !!! I was waiting for you 😊.")
-        await emily_message("Tell me...How are you feeling right now???")
+        await asyncio.sleep(3.5)
+        await emily_message("Hi Anna 🌸 Welcome !!! I was just waiting for you 😊.")
+        await emily_message("Tell me... How are you feeling right now ???")
         await show_mood_buttons()
 
     async def show_mood_buttons():
@@ -1010,12 +1044,12 @@ def surprise_page():
     ''')
 
     with ui.column().classes('items-center justify-start w-screen h-screen gap-4'):
-        ui.label("A Note from Me to You, Anna").classes(
+        ui.label("A Note from Me to You, Anna ✨").classes(
             "text-2xl font-bold text-pink-700 mt-6 mb-4"
         ).style("font-family: 'Dancing Script', cursive; font-weight: 600; ")
 
         with ui.row().classes("justify-center mb-4"):
-            ui.label("💗").classes("text-3xl animate-pulse")
+            ui.label("🌷").classes("text-3xl animate-pulse")
 
             # 👇 JavaScript for fade-out effect
             ui.add_body_html('''
@@ -1071,7 +1105,7 @@ def surprise_page():
 
                   <p>Hey Anna,</p>
 
-                  <p>Maybe this is coming out of the blue — or maybe you’ve already sensed what is coming. Either way, there’s something I’ve been holding in, and if I don’t say it now, I know I’ll regret it forever.</p>
+                  <p>Maybe this is coming out of the blue — or maybe you’ve already sensed what is coming, as you are smart enough. Either way, there’s something I’ve been holding in, and if I don’t say it now, I know I’ll regret it forever.</p>
 
                   <p>Do you believe in God’s plan? I think I do. Starting my internship two weeks early might’ve seemed rushed at the time, but looking back, I’m so glad I did. Because if I hadn’t… maybe I’d never have met you.</p>
 
@@ -1085,15 +1119,15 @@ def surprise_page():
 
                   <p>There’s a wisdom in you that’s rare. Your sense of humor, your understanding, the way you see life — it all felt so grounded, so real. It’s something I genuinely admire and respect.</p>
 
-                  <p>This is probably the first time I’ve opened up like this to anyone. But I don’t regret it. In fact, I think everything happened the way it was supposed to — like it was all part of a plan. And maybe, just maybe, it’s meant to be something more.</p>
+                  <p>This is probably the first time I’ve opened up like this to anyone. But, I don’t regret it. In fact, I think everything happened the way it was supposed to — like it was all part of a plan. And maybe, just maybe, it’s meant to be something more.</p>
 
                   <p>You might not believe it, but you really are one of the best people I’ve had the chance to meet. I admire your honesty, your spirit, your thoughts — and I’d love to keep getting to know you, to hear more, to share more.</p>
 
-                  <p>This little surprise? It’s just a small reflection of how much I appreciate you. And I’ll say it again, Anna — you truly are a wonderfully genuine person.</p>
+                  <p>This little surprise? It’s just a small reflection of how much I appreciate you. And I’ll say it again, Anna — There’s something beautifully genuine about you — it’s rare and refreshing.</p>
                   
-                  <p> I didn’t wanted to overwhelm you by sharing it all at once, but I thought expressing it this way might feel more meaningful.</p>
+                  <p> I wasn’t sure how to say all this without overwhelming you, but I thought sharing it like this might feel more genuine. It’s just me trying to be honest and respectful, because you deserve nothing less. Maybe not as straightforward as you like, but I hope it was good enough.</p>
 
-                  <p style="text-align: left; margin-top: 2rem;">From someone who’s really glad the universe had a plan...</p>
+                  <p style="text-align: left; margin-top: 2rem;">From someone, who’s really glad the universe had a plan...</p>
                   🌟<br>
                   
                 </div>
@@ -1358,7 +1392,7 @@ def date_page():
 
         with ui.row().classes("w-screen h-screen items-center justify-center fade-in-slow"):
             with ui.column().classes("items-center justify-center gap-6 text-center"):
-                ui.label("A little something from the part-time poet... ✍️").classes(
+                ui.label("A quiet thought, wrapped in rhyme... 🌸").classes(
                     "text-xl text-purple-800 font-bold").style(
                     "font-family: 'Dancing Script', cursive; font-weight: 600;"
                 )
@@ -1371,7 +1405,7 @@ def date_page():
                     "From chats to laughs, and moments we share,\n"
                     "It’s clear you’re someone beyond compare.\n"
                     "So here’s my hope, simple and straight —\n"
-                    "Would you join me for a date? 🌟😊"
+                    "Would you like to join me for a date? 🌟😊"
                 )
 
                 ui.label(poem).classes("text-lg text-pink-900 whitespace-pre-line").style(
@@ -1379,7 +1413,7 @@ def date_page():
                 )
 
                 with ui.row().classes("gap-4"):
-                    ui.button("Yes 💕", on_click=lambda: ui.navigate.to("/yes-date")).classes(
+                    ui.button("Yes, for sure 💕", on_click=lambda: ui.navigate.to("/yes-date")).classes(
                         "bg-green-500 text-white px-4 py-2 rounded")
                     ui.button("Maybe Not 🙈", on_click=lambda: ui.navigate.to("/no-date")).classes(
                         "bg-gray-400 text-white px-4 py-2 rounded")
@@ -1389,14 +1423,14 @@ def date_page():
     def yes_date_page():
         with ui.row().classes("w-screen h-screen items-center justify-center bg-pink-100"):
             with ui.column().classes("items-center justify-center gap-6 text-center"):
-                ui.label("Yaaay! Pick a date for our special day 💕").classes("text-xl text-pink-700").style(
+                ui.label("Yaaay! Pick a date for the special day 💕").classes("text-xl text-pink-700").style(
                     "font-family: 'Dancing Script', cursive;")
                 date_picker = ui.date()
                 selected_date_text = ui.label("").classes("text-pink-800")
 
                 def confirm():
                     selected = str(date_picker.value)
-                    selected_date_text.text = f"Mission Successful ! Can't wait for {selected}! 🎉"
+                    selected_date_text.text = f"Mission Successful !! Can't wait for {selected}! 🎉"
                     send_email_notification(rating_value, True, selected)
                     ui.notify("Date saved 💌", type="positive", duration=5)
 
@@ -1424,4 +1458,4 @@ def date_page():
                                     }, 5000);
                                 """)
 
-ui.run(title="A Little Something for Anna", port=8082, reload=False)
+ui.run(title="A Little Something for Anna 🌟", port=8082, reload=False)
