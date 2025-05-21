@@ -126,7 +126,6 @@ def intro_page():
             "hidden mt-6 bg-pink-700 text-white font-semibold shadow-lg px-6 py-3 rounded-xl hover:bg-pink-800 hover:scale-105 transition-transform duration-300 focus:outline-none"
         )
 
-    # JavaScript: countdown and fade transitions
     ui.add_body_html("""
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -137,46 +136,63 @@ def intro_page():
 
             let count = 7;
 
-            // Step 1: Animate "Ready?" smoothly
+            // Step 1: Show "Are"
+            setTimeout(() => {
+                timerElement.textContent = "Are";
+                timerElement.classList.remove("countdown");
+                void timerElement.offsetWidth;
+                timerElement.classList.add("countdown");
+            }, 100);
+
+            // Step 2: Show "You"
+            setTimeout(() => {
+                timerElement.textContent = "You";
+                timerElement.classList.remove("countdown");
+                void timerElement.offsetWidth;
+                timerElement.classList.add("countdown");
+            }, 1000);
+
+            // Step 3: Show "Ready?" and immediately start countdown
             setTimeout(() => {
                 timerElement.textContent = "Ready?";
                 timerElement.classList.remove("countdown");
                 void timerElement.offsetWidth;
                 timerElement.classList.add("countdown");
-            }, 100); // slight delay to ensure DOM is ready
 
-            // Step 2: Start countdown after "Ready?" shows
-            setTimeout(() => {
-                const countdown = setInterval(() => {
-                    if (count >= 0) {
-                        timerElement.textContent = count;
-                        timerElement.classList.remove("countdown");
-                        void timerElement.offsetWidth;
-                        timerElement.classList.add("countdown");
-                        count--;
-                    } else {
-                        clearInterval(countdown);
+                // Step 4: Start countdown right after "Ready?"
+                setTimeout(() => {
+                    const countdown = setInterval(() => {
+                        if (count >= 0) {
+                            timerElement.textContent = count;
+                            timerElement.classList.remove("countdown");
+                            void timerElement.offsetWidth;
+                            timerElement.classList.add("countdown");
+                            count--;
+                        } else {
+                            clearInterval(countdown);
 
-                        // Step 3: Show "Let's go!" smoothly
-                        timerElement.textContent = "Let's go !";
-                        timerElement.classList.remove("countdown");
-                        void timerElement.offsetWidth;
-                        timerElement.classList.add("countdown");
+                            // Step 5: Show "Let's go!"
+                            timerElement.textContent = "Let's go !";
+                            timerElement.classList.remove("countdown");
+                            void timerElement.offsetWidth;
+                            timerElement.classList.add("countdown");
 
-                        // Step 4: Reveal content
-                        setTimeout(() => {
-                            overlay.classList.add('hidden');
-                            mainContent.classList.add('visible');
+                            // Step 6: Reveal content
                             setTimeout(() => {
-                                startBtn.classList.remove("hidden");
-                            }, 2200);
-                        }, 1000);
-                    }
-                }, 1000);
-            }, 1200); // wait 1.2 seconds after "Ready?" shows
+                                overlay.classList.add('hidden');
+                                mainContent.classList.add('visible');
+                                setTimeout(() => {
+                                    startBtn.classList.remove("hidden");
+                                }, 2200);
+                            }, 1000);
+                        }
+                    }, 1000);
+                }, 1000); // 1s after "Ready?" to give it time to show
+            }, 2000); // "Ready?" appears at 2s
         });
     </script>
     """)
+
 
 # Use ui.state to keep session variables persistent across requests
 ui.state.session = {
