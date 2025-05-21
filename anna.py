@@ -793,7 +793,7 @@ async def chat_page():
         ("🍍 Pineapple on Pizza??", [
             "🍍✅ Yes, it belongs there!", "🍍❌ No, gross!"
         ]),
-        ("🌟 So finally, the main question — DID I DO WELL TO IMPRESS YOU???", [
+        ("🌟 So finally, the main question — DID I DO WELL TO IMPRESS YOU ???", [
             "😄👍 Yes, for sure!", "😬💪 You need to work hard!"
         ]),
     ]
@@ -1141,7 +1141,7 @@ def surprise_page():
 
                   <p>This little surprise? It’s just a small reflection of how much I appreciate you. And I’ll say it again, Anna — There’s something beautifully genuine about you — it’s rare and refreshing.</p>
                   
-                  <p> Honestly,I wasn’t sure how to say all this without overwhelming you, but I thought sharing it like this might feel more genuine. It’s just me trying to be honest and respectful, because you deserve nothing less. Maybe not as straightforward as you like, but I hope it was good enough and worth your time.</p>
+                  <p> Honestly, I wasn’t sure how to say all this without overwhelming you, but I thought sharing it like this might feel more genuine. It’s just me trying to be honest and respectful, because you deserve nothing less. Maybe not as straightforward as you like, but I hope it was good enough and worth your time.</p>
 
                   <p style="text-align: left; margin-top: 2rem;">From someone, who’s really glad the universe had a plan...</p>
                   🌟<br>
