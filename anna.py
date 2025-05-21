@@ -143,7 +143,7 @@ def intro_page():
                 timerElement.classList.remove("countdown");
                 void timerElement.offsetWidth;
                 timerElement.classList.add("countdown");
-            }, 10); // slight delay to ensure DOM is ready
+            }, 100); // slight delay to ensure DOM is ready
 
             // Step 2: Start countdown after "Ready?" shows
             setTimeout(() => {
@@ -427,11 +427,11 @@ MOOD_EMOJIS = {
 }
 
 compliments = {
-    "Happy": "That's so wonderful to hear! You shine brightest when you're smiling ☀️😊",
+    "Happy": "That's so wonderful to hear ! You shine brightest when you're smiling ☀️😊",
     "Sad": "Awww... I didn't expect that but I am here to lift up your mood 💜😢",
-    "Excited": "Yayyyy! Your excitement is infectious! 🎉🤩",
-    "Curious": "Ooohh, curiosity is a sign of brilliance ✨🧐",
-    "Relaxed": "It's so great to hear you're feeling at peace! 💆‍♀️😌"
+    "Excited": "Yayyyy...Your excitement is infectious ! 🎉🤩",
+    "Curious": "Ooohh...Curiosity is a sign of brilliance ! ✨🧐",
+    "Relaxed": "It's so great to hear you're feeling at peace ! 💆‍♀️😌"
 }
 
 IDENTITY_CHOICES = {
@@ -585,11 +585,11 @@ async def chat_page():
 
     # Helper functions inside chat_page
     async def theme_changed_message(color_label: str):
-        await emily_message(f"Let's continue chatting with this new vibe! 🎨")
+        await emily_message(f"Let's continue chatting with this new vibe ! 🎨")
 
     # Function to display message confirming theme change
     async def theme_changed_message(color_label: str):
-        await emily_message(f"Let's continue chatting with this new vibe! 🎨")
+        await emily_message(f"Let's continue chatting with this new vibe ! 🎨")
 
     async def emily_message(text: str):
         with chat_container:
@@ -659,7 +659,7 @@ async def chat_page():
         await ask_about_emily()
 
     async def ask_about_emily():
-        await emily_message("By the way, Anna... do you know who I am? 🤔")
+        await emily_message("By the way, Anna... do you know who I am ? 🤔")
         await asyncio.sleep(1)
         await show_know_emily_options()
 
@@ -686,18 +686,18 @@ async def chat_page():
 
     async def emily_reaction_based_on_answer(answer: str):
         if answer == "Yes, I know!":
-            await emily_message("Haha! You already know me, but you don't know that I am created by the smartest person alive !")
+            await emily_message("Haha ! You already know me, but you don't know that I am created by the smartest person alive !")
             await asyncio.sleep(2)
             await emily_message("And he gave me bribe to say so. 😂")
         elif answer == "No, who are you?":
-            await emily_message("Oh noo! 😱 You don't know me? That hurts... Just kidding! 😅")
+            await emily_message("Oh noo ! 😱 You don't know me? That hurts... Just kidding ! 😅")
             await asyncio.sleep(2)
             await emily_message("I'm Emily — nice to meet you 😊")
             await asyncio.sleep(2)
             await emily_message("And yes, I was created by someone who thinks he’s the smartest person alive 😂")
             await asyncio.sleep(1.5)
         else:
-            await emily_message("Hmm, that’s a mysterious answer! 😏 I like mysteries...")
+            await emily_message("Hmm, that’s a mysterious answer ! 😏 I like mysteries...")
             await asyncio.sleep(2)
             await emily_message("Anyway, I’m Emily — created by the so-called genius who bribed me to say that 😜")
             await asyncio.sleep(1)
@@ -712,7 +712,7 @@ async def chat_page():
         await emily_message("TO IMPRESS YOU ! 💖")
         await asyncio.sleep(2)
         await emily_message(
-            "My creator has told me *amazing* things about you, so I’ve gotta bring my A-game today! 🏆")
+            "My creator has told me *amazing* things about you, so I’ve gotta bring my A-game today ! 🏆")
         await asyncio.sleep(2)
         await emily_message("Honestly... my job depends on the next 5 minutes 😨")
         await asyncio.sleep(2)
@@ -726,10 +726,10 @@ async def chat_page():
         await asyncio.sleep(1)
         await emily_message("2...")
         await asyncio.sleep(1)
-        await emily_message("1... 🎬 Let's go!")
+        await emily_message("1... 🎬 Let's go !")
 
         await asyncio.sleep(1)
-        await emily_message("Pick a color from below! 🌈✨")
+        await emily_message("Pick a color from below ! 🌈✨")
         await show_color_options()
 
     async def show_color_options():
@@ -744,8 +744,8 @@ async def chat_page():
 
     async def handle_color_selection(color_label: str):
         mood_row.clear()
-        await anna_message(f"I choose {color_label}!")
-        await emily_message(f"Ooh {color_label} is a fantastic choice! 🎨")
+        await anna_message(f"I choose {color_label} !")
+        await emily_message(f"Ooh {color_label} is a fantastic choice ! 🎨")
         await asyncio.sleep(2)
         await apply_color_theme(color_label)
         await theme_changed_message(color_label)
@@ -753,7 +753,7 @@ async def chat_page():
 
     async def apply_color_theme(color_label: str):
         update_ui_theme(color_label, current_theme)  # <-- pass current_theme here
-        await emily_message(f"Tadaaaa! ✨ Everything's now bathed in the beautiful {color_label}!")
+        await emily_message(f"Tadaaaa ! ✨ Everything's now bathed in the beautiful {color_label} !")
 
     rapid_fire_questions = [
         ("🍽️ What's your favorite cuisine?", [
@@ -786,21 +786,21 @@ async def chat_page():
 
     rapid_fire_compliments = {
         "🍽️ What's your favorite cuisine?": {
-            "🇮🇳 Indian": "Ahh, full of spices and soul — I like it! 🌶️",
-            "🇹🇭 Thai": "Sweet, spicy, and unique — Tastyyy! 🍜",
+            "🇮🇳 Indian": "Ahh, full of spices and soul — I like it ! 🌶️",
+            "🇹🇭 Thai": "Sweet, spicy, and unique — Tastyyy ! 🍜",
             "🇮🇹 Italian": "A classy choice — you have elegant taste 🍝",
-            "🇲🇽 Mexican": "Bold and colorful — a true firecracker! 🌮",
-            "🇩🇪 German": "Strong, hearty, and full of carbs — I like it! 🥨",
-            "🌐 Other": "I'll get to know soon, dont worry! 😋",
-            "default": "That sounds delicious! You've got amazing taste! 🍽️"
+            "🇲🇽 Mexican": "Bold and colorful — a true firecracker ! 🌮",
+            "🇩🇪 German": "Strong, hearty, and full of carbs — I like it ! 🥨",
+            "🌐 Other": "I'll get to know soon, dont worry ! 😋",
+            "default": "That sounds delicious ! You've got amazing taste ! 🍽️"
         },
         "🎶 What's your favorite music genre?": {
-            "🎤 Pop": "Trendy and upbeat — I love your vibe! 🎤",
-            "🎸 Rock": "You’ve got that wild spark — awesome! 🎸",
-            "🎷 Jazz": "Smooth and sophisticated — classy! 🎷",
-            "🎻 Classical": "Such elegance — timeless taste! 🎻",
-            "🎧 Electronic": "Electric and energetic — that’s exciting! ⚡",
-            "default": "You’ve got a unique taste in music — love that! 🎶"
+            "🎤 Pop": "Trendy and upbeat — I love your vibe ! 🎤",
+            "🎸 Rock": "You’ve got that wild spark — awesome ! 🎸",
+            "🎷 Jazz": "Smooth and sophisticated — classy ! 🎷",
+            "🎻 Classical": "Such elegance — timeless taste ! 🎻",
+            "🎧 Electronic": "Electric and energetic — that’s exciting ! ⚡",
+            "default": "You’ve got a unique taste in music — love that ! 🎶"
         },
         "🎯 What's your favorite hobby?": {
             "🌱 Gardening": "You nurture life — that’s beautiful 🌱",
@@ -808,39 +808,39 @@ async def chat_page():
             "🎬 Movies/Series": "Movie buddy alert! 🍿",
             "⚽ Sports": "Energetic and passionate — go you! 🏅",
             "🎵 Music": "Soulful and creative — lovely! 🎶",
-            "default": "That’s so interesting! You’ve got such cool interests! 😎"
+            "default": "That’s so interesting ! You’ve got such cool interests ! 😎"
         },
         "🎨 What's your favorite color?": {
-            "🔵 Blue": "Cool, calm, and collected — perfect! 🌊",
-            "🔴 Red": "Bold and fiery — love the energy! 🔥",
-            "🟢 Green": "Grounded and fresh — so earthy 🌿",
-            "🟡 Yellow": "Bright and happy — you shine! ☀️",
-            "🩷 Pink": "Soft yet fierce — what a combo! 🎀",
-            "⚫ Black": "Elegant and mysterious — just wow 🌌",
-            "⚪ White": "Pure and peaceful — beautiful soul 🤍",
-            "default": "Your favorite color says a lot — you're unique! 🎨"
+            "🔵 Blue": "Cool, calm, and collected — perfect ! 🌊",
+            "🔴 Red": "Bold and fiery — love the energy ! 🔥",
+            "🟢 Green": "Grounded and fresh — so earthy !  🌿",
+            "🟡 Yellow": "Bright and happy — you shine ! ☀️",
+            "🩷 Pink": "Soft yet fierce — what a combo ! 🎀",
+            "⚫ Black": "Elegant and mysterious — just wow ! 🌌",
+            "⚪ White": "Pure and peaceful — beautiful soul ! 🤍",
+            "default": "Your favorite color says a lot — you're unique ! 🎨"
         },
         "🌄 Are you a mountain person or beach person?": {
-            "🏔️ Mountain": "Peaceful, powerful, and grounded — I see that! 🏔️",
-            "🏖️ Beach": "Breezy, sunny, and joyful — love it! 🌊",
-            "default": "Wow, you’re full of surprises — love that spirit! 💫"
+            "🏔️ Mountain": "Peaceful, powerful, and grounded — I see that ! 🏔️",
+            "🏖️ Beach": "Breezy, sunny, and joyful — love it ! 🌊",
+            "default": "Wow, you’re full of surprises — love that spirit ! 💫"
         },
         "🎞️ What's your favorite movie genre?": {
-            "🔫 Action": "You love the thrill — definitely a bold soul! 💥",
-            "😂 Comedy": "Ahaa! Now I know the reason behind your humor! 😂",
-            "🎭 Drama": "So emotional and deep — I'm intrigued 🎭",
-            "👻 Horror": "Fearless and fierce — or secretly scared? 👻😜",
-            "💖 Romance": "A hopeless romantic? I like that! 💘",
-            "default": "You’ve got great cinematic taste! 🍿"
+            "🔫 Action": "You love the thrill — definitely a bold soul ! 💥",
+            "😂 Comedy": "Ahaaa ! Now I know the reason behind your humor ! 😂",
+            "🎭 Drama": "So emotional and deep — I'm intrigued ! 🎭",
+            "👻 Horror": "Fearless and fierce — or secretly scared ? 👻😜",
+            "💖 Romance": "A hopeless romantic? I like that ! 💘",
+            "default": "You’ve got great cinematic taste ! 🍿"
         },
         "🍍 Pineapple on Pizza??": {
-            "🍍✅ Yes, it belongs there!": "Sweet and adventurous — a daring choice! 🍕🍍",
-            "🍍❌ No, gross!": "Classic and pure — a loyal foodie! 🍕😎",
-            "default": "Ooooh, interesting choice! You’re definitely unique. 😄"
+            "🍍✅ Yes, it belongs there!": "Sweet and adventurous — a daring choice ! 🍕🍍",
+            "🍍❌ No, gross!": "Classic and pure — a loyal foodie ! 🍕😎",
+            "default": "Ooooh, interesting choice ! You’re definitely unique. 😄"
         },
         "🌟 So finally, the main question — DID I DO WELL TO IMPRESS YOU???": {
-            "😄👍 Yes, for sure!": "Yayyy! I get to keep my job 😄🎉",
-            "😬💪 You need to work hard!": "Guess I’m fired now... 😢💼 But hey, I had fun trying!",
+            "😄👍 Yes, for sure!": "Yayyy ! I get to keep my job 😄🎉",
+            "😬💪 You need to work hard!": "Guess I’m fired now... 😢💼 But hey, I had fun trying !",
             "default": "No pressure... but I really hope I impressed you 🥹✨"
         },
     }
@@ -868,23 +868,23 @@ async def chat_page():
             typing_label.text = "Emily is typing..."
             await asyncio.sleep(1.5)
             typing_label.text = ""
-            await emily_message("Phewww! That was so much fun! 🥳 You’ve got some really cool taste, Anna !")
+            await emily_message("Phewww ! That was so much fun ! 🥳 You’ve got some really cool taste, Anna !")
             await asyncio.sleep(2)
             await emily_message("But wait... I’ve got one more trick up my sleeve. Wanna hear some jokes? 🤡")
             await asyncio.sleep(2)
             await emily_message("Too late, I’m telling them anyway 😁")
             await asyncio.sleep(2)
             await emily_message("Let's start !")
-            await asyncio.sleep(1)
+            await asyncio.sleep(0.5)
             await tell_jokes()
 
     async def tell_jokes():
         jokes = [
             ("Why did the business student bring a ladder to class?",
-             "Because she heard the course was on another level! 📈😄"),
+             "Because she heard the course was on another level ! 📈😄"),
             ("What did the left eye say to the right eye?", "Between us, something smells… 👃😆"),
-            ("Why did the computer visit the doctor?", "Because it had a virus! 🦠💻😂"),
-            ("Are you a magician?", "Because whenever you're around, everything else disappears... ✨😉")
+            ("Why did the computer visit the doctor?", "Because it had a virus ! 🦠💻😂"),
+            ("Are you a magician ?", "Because whenever you're around, everything else disappears... ✨😉")
         ]
 
         for setup, punchline in jokes:
@@ -906,7 +906,7 @@ async def chat_page():
 
     async def wrap_up_before_big_reveal():
         await asyncio.sleep(2)
-        await emily_message("I can sense that you are laughing right now...those jokes were fire 😂")
+        await emily_message("I can sense that you are laughing right now...those jokes were just fire ! 😂")
         await asyncio.sleep(2)
         await emily_message("So Anna, my journey with you *for now* ends here... and honestly, I feel a bit emotional. 🥺")
         await asyncio.sleep(2)
@@ -916,7 +916,7 @@ async def chat_page():
         await asyncio.sleep(2)
         await emily_message("Because now comes the Main Event... 🎁")
         await asyncio.sleep(2)
-        await emily_message("Something straight from my creator is coming your way... Click below to reveal it... 👇")
+        await emily_message("Something straight from my creator is coming your way. Click below to reveal it... 👇")
 
         await asyncio.sleep(1)  # smooth pause before UI changes
         bottom_options_row.clear()
@@ -953,7 +953,7 @@ async def chat_page():
 
     async def start_chat():
         await asyncio.sleep(3.5)
-        await emily_message("Hi Anna 🌸 Welcome !!! I was just waiting for you 😊.")
+        await emily_message("Hellooo Anna 🌸 Welcome !!! I was just waiting for you 😊.")
         await emily_message("Tell me... How are you feeling right now ???")
         await show_mood_buttons()
 
@@ -1125,7 +1125,7 @@ def surprise_page():
 
                   <p>This little surprise? It’s just a small reflection of how much I appreciate you. And I’ll say it again, Anna — There’s something beautifully genuine about you — it’s rare and refreshing.</p>
                   
-                  <p> I wasn’t sure how to say all this without overwhelming you, but I thought sharing it like this might feel more genuine. It’s just me trying to be honest and respectful, because you deserve nothing less. Maybe not as straightforward as you like, but I hope it was good enough.</p>
+                  <p> Honestly,I wasn’t sure how to say all this without overwhelming you, but I thought sharing it like this might feel more genuine. It’s just me trying to be honest and respectful, because you deserve nothing less. Maybe not as straightforward as you like, but I hope it was good enough and worth your time.</p>
 
                   <p style="text-align: left; margin-top: 2rem;">From someone, who’s really glad the universe had a plan...</p>
                   🌟<br>
@@ -1328,7 +1328,7 @@ def date_page():
             "font-size: 1rem; color: #6b123d; margin-bottom: 1rem;"
         )
 
-        ui.label("🌟 Anna, how would you rate your overall experience with me? 🌟").style(
+        ui.label("🌟 Anna, how would you rate your overall experience today ? 🌟").style(
             "font-size: 1rem; color: #6b123d; margin-bottom: 1rem;"
         )
 
